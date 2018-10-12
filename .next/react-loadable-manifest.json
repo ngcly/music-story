@@ -7,10 +7,10 @@
       "publicPath": "static/chunks/0.js"
     }
   ],
-  "./styles.less": [
+  "./index.less": [
     {
-      "id": "./pages/styles.less",
-      "name": "./pages/styles.less",
+      "id": "./components/MyLayout/index.less",
+      "name": "./components/MyLayout/index.less",
       "file": "static/chunks/styles.js",
       "publicPath": "static/chunks/styles.js"
     }
@@ -19,6 +19,20 @@
     {
       "id": 4,
       "name": null,
+      "file": "static/chunks/styles.js",
+      "publicPath": "static/chunks/styles.js"
+    },
+    {
+      "id": 5,
+      "name": null,
+      "file": "static/chunks/styles.js",
+      "publicPath": "static/chunks/styles.js"
+    }
+  ],
+  "./styles.less": [
+    {
+      "id": "./pages/styles.less",
+      "name": "./pages/styles.less",
       "file": "static/chunks/styles.js",
       "publicPath": "static/chunks/styles.js"
     }
