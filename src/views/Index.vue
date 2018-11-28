@@ -4,12 +4,18 @@
     <div class="player">
           <aplayer autoplay
   :music="{
-    title: 'secret base~君がくれたもの~',
-    artist: 'Silent Siren',
-    src: 'https://moeplayer.b0.upaiyun.com/aplayer/secretbase.mp3',
-    pic: 'https://moeplayer.b0.upaiyun.com/aplayer/secretbase.jpg'
+    title: 'where are you',
+    artist: 'AniFace',
+    src: 'http://music.163.com/song/media/outer/url?id=453843751.mp3',
+    pic: 'http://p1.music.126.net/AUfXMljLBgB3PBV731IzRg==/109951162857118370.jpg'
   }"
-  :mini="true"
+  :list="[{
+    title: '碎月雨中奏',
+    artist: 'iw ix',
+    src: 'http://music.163.com/song/media/outer/url?id=103035.mp3',
+    pic: 'http://p2.music.126.net/wl-EL0LwqSkjWWlhphoxOQ==/51677046517786.jpg'
+  }]"
+  :mini="false"
   :float="true"
 />
     </div>
