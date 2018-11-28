@@ -1,4 +1,31 @@
-# music-story
-音乐故事前端
+# music-story  
+  
+## vue-cli构建 模仿简书导航
 
-这个是客户端代码，next.js + ant design。目前页面布局啥的还没写 SPA页面是真难弄，有没有大神带带。
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Run your tests
+```
+npm run test
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).

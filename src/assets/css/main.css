@@ -1,0 +1,121 @@
+/**************************公共样式**************************/
+* {
+    box-sizing: border-box;
+}
+.clearfix:after{
+    content: '';
+    display: block;
+    clear: both;
+    height: 0;
+    visibility: hidden;
+}
+html, body {
+    height: 100%;
+    background-color: #fff;
+    color: #333;
+    margin: 0;
+    padding: 0;
+
+}
+body{
+    overflow: scroll;
+    overflow-x: hidden;
+}
+a, a:focus {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+input:focus {
+    outline: none;
+}
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+}
+ul, ol, dl {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+img {
+    max-height: 100%;
+}
+.my-container {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+@media (min-width: 992px) {
+    .my-container {
+        width: 960px;
+    }
+}
+@media (max-width: 1080px) {
+    .my-container {
+        width: 750px;
+    }
+}
+@media (max-width: 750px) {
+    body{
+        overflow-x: hidden;
+    }
+}
+/**************************************首页布局**********************************/
+.index{
+    padding-top: 30px;
+}
+.index .main{
+    padding-right: 0;
+}
+.index .aside{
+    padding:0 0 0 4.16667%;
+}
+.index .main .banner{
+    margin-bottom: 35px;
+}
+.index .main .banner img{
+    width: 100%;
+    border-radius:5px;
+}
+.index .main .recommend-collection{
+    margin-bottom: 10px;
+}
+.index .main .recommend-collection p{
+    margin: 0;
+    padding:0;
+}
+.index .main .recommend-collection a{
+    display: inline-block;
+    min-height: 32px;
+    margin: 0 18px 18px 0;
+    border-radius: 4px;
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    overflow: hidden;
+}
+.index .main .recommend-collection .more-hot-collection{
+    display: inline-block;
+    margin: 0;
+    vertical-align: top;
+    font-size: 14px;
+    background: none;
+    border:none;
+    color:#787878!important;
+    line-height: 32px;
+}
+.index .main .recommend-collection a img{
+    width: 32px;
+    height: 32px;
+    vertical-align:bottom;
+}
+.index .main .recommend-collection a span{
+    display: inline-block;
+    font-size: 14px;
+    padding: 0 10px;
+    line-height: 32px;
+}
+.index .main .split-line{
+    margin: 0 0 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
