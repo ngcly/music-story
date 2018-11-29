@@ -15,8 +15,11 @@
     src: 'http://music.163.com/song/media/outer/url?id=103035.mp3',
     pic: 'http://p2.music.126.net/wl-EL0LwqSkjWWlhphoxOQ==/51677046517786.jpg'
   }]"
-  :mini="false"
-  :float="true"
+  :mini=false
+  :float=true
+  :showLrc=true
+  :shuffle=true
+  :listFolded=true
 />
     </div>
   </div>

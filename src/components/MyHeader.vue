@@ -5,7 +5,7 @@
         <!--logo-->
         <router-link 
           class="nav-logo" 
-          to="/">
+          to="/home">
           <img src="../assets/img/nav-logo.png">
         </router-link>
         <router-link v-if="isLogin"
@@ -85,7 +85,7 @@
               <span>精选</span>
             </a>
             </router-link>
-            <li 
+            <li v-if="isLogin"
               class="notify" 
               @mouseover="notifyShow=true" 
               @mouseleave="notifyShow=false">
