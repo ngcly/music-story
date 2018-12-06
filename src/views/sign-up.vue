@@ -36,7 +36,7 @@
                     </div>
                     <input class="btn btn-success sign-up-btn" type="button" value="注册">
                     <p class="sign-up-msg">
-                        点击 “注册” 即表示您同意并愿意遵守简书<br>用户协议和隐私政策
+                        点击 “注册” 即表示您同意并愿意遵守音书<br>用户协议和隐私政策
                     </p>
                 </form>
                 <div class="more-sign">
@@ -59,17 +59,9 @@
     </div>
 </template>
 <script>
-    // import '../assets/css/sign.css'
+    import '../assets/css/sign.css'
     export default {
-        layout:'sign',//指明当前页面所使用的默认模版是layout文件夹下的sing.vue
-        head(){
-            return {
-                title:'注册-简书',
-                meta:[
-                    {hide:'description',name:'description',content:'注册页面'}
-                ]
-            }
-        }
+       
     }
 </script>
 <style>

@@ -8,10 +8,6 @@ import './assets/css/animate.css'
 import './assets/css/normalize.css'
 import './assets/css/font-awesome.min.css'
 import './assets/css/main.css'
-import './assets/ai/waifu.css'
-
-import './assets/ai/waifu-tips.js'
-import './assets/ai/live2d.js'
 
 Vue.config.productionTip = false
 

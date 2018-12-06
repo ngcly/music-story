@@ -1,42 +1,8 @@
-body{
-    /* overflow-y:scroll;
-    overflow-x:hidden; */
-    cursor:url-loader(finger.cur),auto;
-}
-
-hr{
-    height:1px;border:none;border-top:1px solid black;
-}
-
-#talk{
-    position: fixed;
-    width: 150px ;height:25px;
-    bottom: 60px;
-    right: 320px;
-    z-index: 10001;
-    transition: all .3s ease-in-out;
-    -webkit-transform: translateY(3px);
-    transform: translateY(3px);
-}
-
-#uploadForm{
-    position: fixed;
-    width: 50px ;height:25px;
-    bottom: 90px;
-    right: 430px;
-    z-index: 10001;
-    transition: all .3s ease-in-out;
-    -webkit-transform: translateY(3px);
-    transform: translateY(3px);
-}
-
 .waifu {
     position: fixed;
     bottom: 0;
-    right: 0;
-    z-index: 10000;
+    z-index: 1;
     font-size: 0;
-    transition: all .3s ease-in-out;
     -webkit-transform: translateY(3px);
     transform: translateY(3px);
 }
@@ -44,22 +10,14 @@ hr{
     -webkit-transform: translateY(0);
     transform: translateY(0);
 }
-@media (max-width: 768px) {
-    .waifu {
-        display: none;
-    }
-}
 .waifu-tips {
     opacity: 0;
-    width: 250px;
-    height: 100px;
-    margin: -50px 20px;
-    padding: 10px 10px;
+    margin: -20px 20px;
+    padding: 5px 10px;
     border: 1px solid rgba(224, 186, 140, 0.62);
     border-radius: 12px;
-    background-color: white;
+    background-color: rgba(236, 217, 188, 0.5);
     box-shadow: 0 3px 15px 2px rgba(191, 158, 118, 0.2);
-    font-size: 12px;
     text-overflow: ellipsis;
     overflow: hidden;
     position: absolute;
@@ -74,7 +32,6 @@ hr{
     color: #aaa;
     top: 50px;
     right: 10px;
-    font-size: 14px;
     position: absolute;
 }
 .waifu:hover .waifu-tool {
@@ -84,7 +41,6 @@ hr{
     display: block;
     cursor: pointer;
     color: #5b6c7d;
-    line-height: 20px;
     transition: 0.2s;
 }
 .waifu-tool span:hover {
@@ -297,8 +253,8 @@ hr{
 }
 @font-face {
   font-family: 'Flat-UI-Icons';
-  src: url-loader('flat-ui-icons-regular.eot');
-  src: url-loader('flat-ui-icons-regular.eot?#iefix') format('embedded-opentype'), url-loader('flat-ui-icons-regular.woff') format('woff'), url-loader('flat-ui-icons-regular.ttf') format('truetype'), url-loader('flat-ui-icons-regular.svg#flat-ui-icons-regular') format('svg');
+  src: url('flat-ui-icons-regular.eot');
+  src: url('flat-ui-icons-regular.eot?#iefix') format('embedded-opentype'), url('flat-ui-icons-regular.woff') format('woff'), url('flat-ui-icons-regular.ttf') format('truetype'), url('flat-ui-icons-regular.svg#flat-ui-icons-regular') format('svg');
 }
 [class^="fui-"],
 [class*="fui-"] {

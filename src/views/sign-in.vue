@@ -66,16 +66,9 @@
     </div>
 </template>
 <script>
-    // import '../assets/css/sign.css'
+    import '../assets/css/sign.css'
     export default {
-        head(){
-            return {
-                title: '登录-音书',
-                meta: [
-                    {hide: 'description', name: 'description', content: '登录页面'}
-                ]
-            }
-        }
+
     }
 </script>
 <style>
