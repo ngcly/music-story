@@ -18,11 +18,11 @@
             <div class="js-sign-in">
                 <form method="post">
                     <div class="input-prepend ">
-                        <input class="top-radius" type="text" value="" name="" placeholder="手机号或邮箱">
+                        <input class="top-radius" type="text"  placeholder="手机号或邮箱" v-model="username">
                         <i class="fa fa-user"></i>
                     </div>
                     <div class="input-prepend">
-                        <input class="bottom-radius" type="password" value="" name="" placeholder="密码">
+                        <input class="bottom-radius" type="password"  placeholder="密码" v-model="password">
                         <i class="fa fa-lock"></i>
                     </div>
                     <div class="remember">
@@ -34,7 +34,7 @@
                             登录遇到问题?
                         </router-link>
                     </div>
-                    <input class="btn btn-primary" type="button" value="登录">
+                    <input class="btn btn-primary" type="button" value="登录" @click="login">
                 </form>
                 <div class="more-sign">
                     <p>社交账号登录</p>
@@ -68,7 +68,17 @@
 <script>
     import '../assets/css/sign.css'
     export default {
-
+        data(){
+            return {
+                username:'',
+                password:''
+            }
+        },
+        methods: {
+            login(){
+                this.$store.dispatch("Login",{username:this.username,password:this.password})
+            }
+        }
     }
 </script>
 <style>
