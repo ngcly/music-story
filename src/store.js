@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import user from '@/api/user'
+import userAPI from '@/api/user'
 
 Vue.use(Vuex)
 
@@ -9,16 +9,20 @@ export default new Vuex.Store({
     token:'',
   },
   mutations: {
-
+    SET_TOKEN: (state, token) => {
+      state.token = token
+    },
   },
   actions: {
     // 登录
     Login({ commit }, userInfo) {
       return new Promise((resolve, reject) => {
-        user.login(userInfo).then(response => {
+        userAPI.login(userInfo).then(response => {
           const data = response.data;
-          commit('SET_TOKEN', data.token);
-          resolve()
+          if(data.code===200){
+            commit('SET_TOKEN', data.data.accessToken);
+            resolve()
+          }
         }).catch(error => {
           reject(error)
         })

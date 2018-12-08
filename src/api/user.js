@@ -3,7 +3,7 @@ import request from "../utils/request";
 const apiConfig = [
     {
         name: "login",
-        url: "/login",
+        url: "/signin",
         method: "post"
     },
     {

@@ -3,7 +3,7 @@ import store from '../store'
 import router from '../router'
 
 const service = axios.create({
-    baseURL: 'http://127.0.0.1:9090/',
+    baseURL: 'http://127.0.0.1:8070/',
     timeout: 5000
 })
 

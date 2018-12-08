@@ -18,11 +18,11 @@
             <div class="js-sign-in">
                 <form method="post">
                     <div class="input-prepend ">
-                        <input class="top-radius" type="text"  placeholder="手机号或邮箱" v-model="username">
+                        <input class="top-radius" type="text"  placeholder="手机号或邮箱" v-model="loginForm.usernameOrEmail">
                         <i class="fa fa-user"></i>
                     </div>
                     <div class="input-prepend">
-                        <input class="bottom-radius" type="password"  placeholder="密码" v-model="password">
+                        <input class="bottom-radius" type="password"  placeholder="密码" v-model="loginForm.password">
                         <i class="fa fa-lock"></i>
                     </div>
                     <div class="remember">
@@ -70,13 +70,19 @@
     export default {
         data(){
             return {
-                username:'',
-                password:''
+                loginForm: {
+                    usernameOrEmail:'',
+                    password:''
+                }
             }
         },
         methods: {
             login(){
-                this.$store.dispatch("Login",{username:this.username,password:this.password})
+                this.$store.dispatch("Login",this.loginForm)
+                .then(() => {
+                    this.loading = false;
+                    this.$router.push(this.$route.query.redirect || '/')
+                }).catch(() => {this.loading = false;});
             }
         }
     }
