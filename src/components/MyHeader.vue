@@ -8,7 +8,7 @@
           to="/home">
           <img src="../assets/img/nav-logo.png">
         </router-link>
-        <router-link v-if="isLogin"
+        <router-link 
           class="btn write-btn" 
           to="/create">
           <i class="fa fa-pied-piper"/>
@@ -62,10 +62,10 @@
                 </router-link>
               </li>
               <li>
-                <router-link to="/logout">
+                <a href="javascript:;" @click="logout">
                   <i class="fa fa-sign-out"/>
                   退出
-                </router-link>
+                </a>
               </li>
             </ul>
           </div>
@@ -156,10 +156,17 @@ export default {
   name: 'MyHeader',
   data() {
     return {
-      isLogin: false,
+      isLogin: true,
       userShow: false,
       notifyShow: false,
       bgShow: false
+    }
+  },
+  methods: {
+    logout(){
+      this.$store.dispatch('LogOut').then(()=>{
+       this.$router.push('/')
+      })
     }
   }
 }

@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import userAPI from '@/api/user'
+import Cookies from 'js-cookie'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    token:'',
+    token:Cookies.get("token"),
   },
   mutations: {
     SET_TOKEN: (state, token) => {
@@ -20,9 +21,10 @@ export default new Vuex.Store({
         userAPI.login(userInfo).then(response => {
           const data = response.data;
           if(data.code===200){
+            Cookies.set('token',data.data.accessToken);
             commit('SET_TOKEN', data.data.accessToken);
-            resolve()
           }
+          resolve()
         }).catch(error => {
           reject(error)
         })
@@ -33,6 +35,13 @@ export default new Vuex.Store({
       //   resolve()
       // })
     },
-
+    // 登出
+    LogOut({ commit }) {
+      return new Promise(resolve => {
+        commit('SET_TOKEN', '')
+        Cookies.remove('token')
+        resolve()
+      })
+    },
   }
 })

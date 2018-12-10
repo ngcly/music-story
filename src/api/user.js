@@ -12,6 +12,11 @@ const apiConfig = [
         method: "post"
     },
     {
+        name: "logout",
+        url: "/logout",
+        method: "post"
+    },
+    {
         name: "userInfo",
         url: "/user",
         method: "get"
