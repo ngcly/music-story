@@ -15,26 +15,26 @@
           写文章
         </router-link>
         <!--登录和注册按钮-->
-        <router-link v-if="isLogin==false"
+        <router-link v-if="!isLogin"
           to="/sign-up" 
           class="btn sign-up">注册</router-link>
-        <router-link v-if="isLogin==false"
+        <router-link v-if="!isLogin"
           to="/sign-in" 
           class="btn sign-in">登录</router-link>
         <!--如果用户登录，那么显示用户头像-->
         <div v-if="isLogin"
           class="user" 
-          @mouseover="userShow=true" 
-          @mouseout="userShow=false">
+          @mouseover="personShow=true" 
+          @mouseout="personShow=false">
           <div class="drop-down">
             <router-link 
               class="avatar" 
               to="/u/123">
-              <img src="../assets/img/user.jpg">
+             <img :src="userInfo.avatar">
             </router-link>
           </div>
           <div 
-            v-show="userShow" 
+            v-show="personShow" 
             class="drop-menu">
             <ul>
               <li>
@@ -94,7 +94,7 @@
                 <span>消息</span>
               </router-link>
               <div 
-                v-if="notifyShow" 
+                v-show="notifyShow" 
                 class="drop-menu">
                 <ul>
                   <li>
@@ -152,20 +152,32 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'MyHeader',
   data() {
     return {
-      isLogin: true,
-      userShow: false,
+      personShow: false,
       notifyShow: false,
       bgShow: false
+    }
+  },
+  computed: {
+    ...mapState({
+      isLogin: state => state.token,
+      userInfo: state => state.user
+    })
+  },
+  created(){
+    if(this.$store.state.token){
+      this.$store.dispatch('GetUserInfo')
     }
   },
   methods: {
     logout(){
       this.$store.dispatch('LogOut').then(()=>{
-       this.$router.push('/')
+       location.reload() // 为了重新实例化vue-router对象 避免bug
       })
     }
   }
@@ -426,12 +438,10 @@ nav .nav-list .search form a.active {
     width: 240px;
   }
 }
-
 @media (max-width: 1080px) {
   nav .nav-list > li > a > i {
     display: block;
   }
-
   nav .nav-list > li > a > span {
     display: none;
   }

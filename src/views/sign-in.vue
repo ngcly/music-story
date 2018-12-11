@@ -18,7 +18,7 @@
             <div class="js-sign-in">
                 <form method="post">
                     <div class="input-prepend ">
-                        <input class="top-radius" type="text"  placeholder="手机号或邮箱" v-model="loginForm.usernameOrEmail">
+                        <input class="top-radius" type="text"  placeholder="手机号或邮箱" v-model="loginForm.username">
                         <i class="fa fa-user"></i>
                     </div>
                     <div class="input-prepend">
@@ -71,7 +71,7 @@
         data(){
             return {
                 loginForm: {
-                    usernameOrEmail:'',
+                    username:'',
                     password:''
                 }
             }

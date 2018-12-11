@@ -18,8 +18,18 @@ const apiConfig = [
     },
     {
         name: "userInfo",
-        url: "/user",
+        url: "/user/info",
         method: "get"
+    },
+    {
+        name: "updateUser",
+        url: "/user/info",
+        method: "put"
+    },
+    {
+        name: "addUser",
+        url: "/user/info",
+        method: "post"
     }
 ];
 

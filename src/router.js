@@ -32,12 +32,22 @@ export default new Router({
       component: SignUp
     },
     {
-      path: '/cteate',
+      path: '/create',
       name: 'create',
       meta: {
         requireAuth: true //表示进入该路由需要登录
       },
       component: Home
+    },
+    {
+      path: '/404',
+      name: '404',
+      component: () => import('@/views/404')
+    },
+    { 
+      path: '*', 
+      redirect: '/404', 
+      hidden: true 
     }
   ]
 })

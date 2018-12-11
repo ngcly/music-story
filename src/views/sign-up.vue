@@ -18,7 +18,7 @@
             <div class="js-sign-up">
                 <form method="post">
                     <div class="input-prepend">
-                        <input class="top-radius" type="text" value="" name="" placeholder="你的昵称">
+                        <input class="top-radius" type="text" value="" name="" placeholder="你的昵称" v-model="signupForm.nickname">
                         <i class="fa fa-user"></i>
                     </div>
                     <div class="input-prepend">
@@ -31,7 +31,7 @@
                         <a class="send-ssm btn-success" href="#">发送验证码</a>
                     </div>
                     <div class="input-prepend">
-                        <input class="bottom-radius" type="password" value="" name="" placeholder="设置密码">
+                        <input class="bottom-radius" type="password" value="" name="" placeholder="设置密码" v-model="signupForm.password">
                         <i class="fa fa-lock"></i>
                     </div>
                     <input class="btn btn-success sign-up-btn" type="button" value="注册">
@@ -61,7 +61,16 @@
 <script>
     import '../assets/css/sign.css'
     export default {
-       
+        data(){
+            return {
+                signupForm: {
+                    username:'',
+                    password:'',
+                    email:'',
+                    nickname:''
+                }
+            }
+        },
     }
 </script>
 <style>
