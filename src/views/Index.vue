@@ -1,6 +1,14 @@
 <template>
   <div class="index my-container">
-    <span>这是精选页面</span>
+    <!--logo-->
+    <div class="logo">
+      <router-link to="/home">
+        <img src="../assets/img/logo.png">
+      </router-link>
+    </div>
+    <div class="main">
+      <span>这是精选页面</span>
+    </div>
     <aplayer 
     :audio="audio" 
     :lrcType="3" 
@@ -38,3 +46,17 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.logo{
+    position:absolute;
+    top: 32px;
+    left: 32px;
+}
+.logo img{
+    width: 100px;
+}
+.main{
+  text-align: center
+}
+</style>

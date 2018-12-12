@@ -1,26 +1,10 @@
 <template>
   <div id="app">
-    <div>
-      <div id="nav">
-        <MyHeader />
-      </div>
-      <transition>
-        <router-view/>
-      </transition>
-    </div>
+    <transition>
+      <router-view/>
+    </transition>
   </div>
 </template>
-
-<script>
-// @ is an alias to /src
-import MyHeader from '@/components/MyHeader.vue'
-export default {
-  name: 'myHeader',
-  components: {
-    MyHeader
-  }
-}
-</script>
 
 <style>
 #app {

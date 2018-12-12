@@ -2,7 +2,7 @@
     <div class="sign">
         <!--logo-->
         <div class="logo">
-            <router-link to="/">
+            <router-link to="/home">
                 <img src="../assets/img/logo.png">
             </router-link>
         </div>

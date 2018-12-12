@@ -4,6 +4,8 @@ import Home from './views/Home.vue'
 import Index from './views/Index.vue'
 import SignIn from './views/sign-in.vue'
 import SignUp from './views/sign-up.vue'
+import Layout from './components/Layout'
+import Create from './views/Create.vue'
 
 Vue.use(Router)
 
@@ -13,13 +15,18 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'index',
-      component: Index
+      component: Layout,
+      redirect: '/index',
+      name: 'home',
+      children: [{
+        path: '/home',
+        component: Home
+      }]
     },
     {
-      path: '/home',
-      name: 'home',
-      component: Home
+      path: '/index',
+      name: 'index',
+      component: Index
     },
     {
       path: '/sign-in',
@@ -37,7 +44,7 @@ export default new Router({
       meta: {
         requireAuth: true //表示进入该路由需要登录
       },
-      component: Home
+      component: Create
     },
     {
       path: '/404',

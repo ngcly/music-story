@@ -30,7 +30,7 @@
             <router-link 
               class="avatar" 
               to="/u/123">
-             <img :src="userInfo.avatar">
+             <img :src="userInfo.avatar||avatar">
             </router-link>
           </div>
           <div 
@@ -155,12 +155,13 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'MyHeader',
+  name: 'Navbar',
   data() {
     return {
       personShow: false,
       notifyShow: false,
-      bgShow: false
+      bgShow: false,
+      avatar:require('../assets/img/user.jpg')
     }
   },
   computed: {
