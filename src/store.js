@@ -32,16 +32,10 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         userAPI.login(userInfo).then(response => {
           const data = response.data;
-          if(data.code===200){
-            Cookies.set('token',data.data.accessToken);
-            commit('SET_TOKEN', data.data.accessToken);
-            resolve()
-          }else{
-            alert(data.msg)
-            reject()
-          }
+          Cookies.set('token',data.accessToken);
+          commit('SET_TOKEN', data.accessToken);
+          resolve()
         }).catch(error => {
-          alert(error)
           reject(error)
         })
       })
@@ -58,16 +52,10 @@ export default new Vuex.Store({
     GetUserInfo({commit}) {
       return new Promise((resolve, reject) => {
         userAPI.userInfo().then(response => {
-          const data = response.data
-          if(data.code===200){
-            commit('SET_USER', data.data);
-            resolve()
-          }else{
-            alert(data.msg)
-            reject()
-          }
+          // const data = response.data
+          commit('SET_USER', response.data);
+          resolve()
         }).catch(error => {
-          alert(error)
           reject(error)
         })
       })
@@ -76,13 +64,9 @@ export default new Vuex.Store({
     UpdateUser({commit}){
       return new Promise((resolve, reject) => {
         userAPI.UpdateUser().then(response => {
-          const data = response.data
-          if(data.code===200){
-            commit('SET_USER', data.data);
-            resolve()
-          }else{
-            reject(data.msg)
-          }
+          // const data = response.data
+          commit('SET_USER', response.data);
+          resolve()
         }).catch(error => {
           reject(error)
         })

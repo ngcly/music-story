@@ -2,6 +2,7 @@ import axios from 'axios'
 import store from '../store'
 import router from '../router'
 import Cookies from 'js-cookie'
+import { Message } from 'element-ui';
 
 const service = axios.create({
     baseURL: 'http://127.0.0.1:8070/',
@@ -17,6 +18,10 @@ service.interceptors.request.use(
         return config;
     },
     err => {
+        Message.error({
+            center: true,
+            message: '服务器请求无响应！'
+        })
         return Promise.reject(err);
     });
   
@@ -25,17 +30,31 @@ service.interceptors.request.use(
     response => {
         const res = response.data
         switch(res.code){
+            case 200: return res
             case 401:
             // 返回 401 清除token信息并跳转到登录页面
-            // store.commit('logout');
-            router.replace({
-                path: 'login',
-                query: {redirect: router.currentRoute.fullPath}
+            store.commit('SET_TOKEN',null);
+            Message.error({
+                message:res.msg,
+                onClose: ()=> router.replace({
+                    path: 'login',
+                    query: {redirect: router.currentRoute.fullPath}
+                })
             })
+            break;
+            default:
+            Message.error({
+                message:res.msg
+            })
+            break
         }
-        return response;
+        return Promise.reject()
     },
     error => {
+        Message.error({
+            message: '服务器异常！',
+            center: true
+        })
         return Promise.reject(error)   // 返回接口返回的错误信息
     })
 
