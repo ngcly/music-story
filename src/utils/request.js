@@ -4,14 +4,14 @@ import service from './service';
 const request = apiConfig => {
     const serviceMap = {};
     apiConfig.map(({name,url,method}) => {
-        serviceMap[name] = async function(data={}) {
+        serviceMap[name] = async function(data={},rest='') {
             let key = "params";
             if(method === "post" || method === "put") {
                 key = "data";
             }
             return service({
                 method,
-                url: url,
+                url: url+rest,
                 [key]:data
             });
         };

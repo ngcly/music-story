@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import userAPI from '@/api/user'
+import api from '@/api/global'
 import Cookies from 'js-cookie'
 
 Vue.use(Vuex)
@@ -30,7 +30,7 @@ export default new Vuex.Store({
     // 登录
     Login({ commit }, userInfo) {
       return new Promise((resolve, reject) => {
-        userAPI.login(userInfo).then(response => {
+        api.login(userInfo).then(response => {
           const data = response.data;
           Cookies.set('token',data.accessToken);
           commit('SET_TOKEN', data.accessToken);
@@ -51,7 +51,7 @@ export default new Vuex.Store({
     //获取用户信息
     GetUserInfo({commit}) {
       return new Promise((resolve, reject) => {
-        userAPI.userInfo().then(response => {
+        api.userInfo().then(response => {
           // const data = response.data
           commit('SET_USER', response.data);
           resolve()
@@ -63,7 +63,7 @@ export default new Vuex.Store({
     //更新用户信息
     UpdateUser({commit}){
       return new Promise((resolve, reject) => {
-        userAPI.UpdateUser().then(response => {
+        api.UpdateUser().then(response => {
           // const data = response.data
           commit('SET_USER', response.data);
           resolve()

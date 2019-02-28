@@ -1,6 +1,6 @@
 <template>
   <div class="index my-container">
-      <span>未完工页面</span>
+      <span>页面被外星人抓走了</span>
   </div>
 </template>
 

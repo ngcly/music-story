@@ -30,6 +30,41 @@ const apiConfig = [
         name: "addUser",
         url: "/user/info",
         method: "post"
+    },
+    {
+        name: "notice",
+        url: "/notice",
+        method: "get"
+    },
+    {
+        name: "carousel",
+        url: "/carousel",
+        method: "get"
+    },
+    {
+        name: "essays",
+        url: "/essay",
+        method: "get"
+    },
+    {
+        name: "create",
+        url: "/user/essay",
+        method: "post"
+    },
+    {
+        name: "myessay",
+        url: "/user/essay",
+        method: "get"
+    },
+    {
+        name: "altessay",
+        url: "/user/essay",
+        method: "put"
+    },
+    {
+        name: "comments",
+        url: "/comments",
+        method: "get"
     }
 ];
 
