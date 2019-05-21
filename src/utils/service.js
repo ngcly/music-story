@@ -5,6 +5,7 @@ import Cookies from 'js-cookie'
 import { Message } from 'element-ui';
 
 const service = axios.create({
+    // baseURL: 'https://api.ngcly.cn',
     baseURL: 'http://127.0.0.1:8070/',
     timeout: 5000
 })
