@@ -5,7 +5,7 @@
         <!--logo-->
         <router-link 
           class="nav-logo" 
-          to="/home">
+          to="/">
           <img src="../assets/img/nav-logo.png">
         </router-link>
         <router-link 
@@ -73,13 +73,13 @@
         <!--导航-->
         <div class="my-container">
           <ul class="nav-list">
-            <router-link tag="li" to="/home">
+            <router-link tag="li" to="/">
             <a>
               <i class="fa fa-compass"/>
               <span>首页</span>
             </a>
             </router-link>
-            <router-link tag="li" to="/">
+            <router-link tag="li" to="/index">
             <a>
               <i class="fa fa-book"/>
               <span>精选</span>

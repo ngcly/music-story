@@ -2,7 +2,7 @@
   <div class="index my-container">
     <!--logo-->
     <div class="logo">
-      <router-link to="/home">
+      <router-link to="/">
         <img src="../assets/img/logo.png">
       </router-link>
     </div>
