@@ -4,9 +4,16 @@ import router from '../router'
 import Cookies from 'js-cookie'
 import { Message } from 'element-ui';
 
+let api_url = "";
+if(process.env.NODE_ENV === 'production'){
+    //生产环境
+    api_url = "https://api.ngcly.cn";
+}else{
+    //开发环境
+    api_url = "http://localhost:8070";
+}
 const service = axios.create({
-    // baseURL: 'https://api.ngcly.cn',
-    baseURL: 'http://127.0.0.1:8070/',
+    baseURL: api_url,
     timeout: 5000
 })
 
