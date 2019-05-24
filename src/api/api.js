@@ -1,36 +1,7 @@
 import request from "../utils/request";
+import user from "./user";
 
-const apiConfig = [
-    {
-        name: "login",
-        url: "/signin",
-        method: "post"
-    },
-    {
-        name: "signup",
-        url: "/signup",
-        method: "post"
-    },
-    {
-        name: "logout",
-        url: "/logout",
-        method: "post"
-    },
-    {
-        name: "userInfo",
-        url: "/user/info",
-        method: "get"
-    },
-    {
-        name: "updateUser",
-        url: "/user/info",
-        method: "put"
-    },
-    {
-        name: "addUser",
-        url: "/user/info",
-        method: "post"
-    },
+const commonApi = [
     {
         name: "notice",
         url: "/notice",
@@ -66,6 +37,8 @@ const apiConfig = [
         url: "/comments",
         method: "get"
     }
-];
+]
 
-export default request(apiConfig);
+const all = commonApi.concat(user);
+
+export default request(all);

@@ -1,5 +1,9 @@
 <template>
   <div class="index my-container">
+     <vue-particles
+        color="#3385FF"
+        linesColor="#3385FF"
+      ></vue-particles>
     <!--logo-->
     <div class="logo">
       <router-link to="/">
@@ -20,7 +24,9 @@
 <script>
 import Vue from 'vue';
 import APlayer from '@moefe/vue-aplayer';
+import VueParticles from 'vue-particles';
 
+Vue.use(VueParticles);
 Vue.use(APlayer);
 export default {
   name: 'index',
