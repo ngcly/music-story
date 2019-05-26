@@ -11,8 +11,11 @@
       </router-link>
     </div>
     <div class="main">
-      <span>这是精选页面</span>
+      <div class="typer" style="width:280px;">
+      <span v-for="(item, index) in str" :key="index" v-bind:style="{animationDelay: `${0.5 + index * 0.3}s`}" v-html="item"></span>
     </div>
+    </div>
+
     <aplayer 
     :audio="audio" 
     :lrcType="3" 
@@ -48,6 +51,7 @@ export default {
           // lrc: 'https://cdn.moefe.org/music/lrc/kyoukiranbu.lrc',
         },
       ],
+      str:"春宫閟此青苔色，秋帐含此明月光，夏簟清兮昼不暮，冬釭凝兮夜何长！织锦曲兮泣已尽，回文诗兮影独伤，春草暮兮秋风惊，秋风罢兮春草生。绮罗毕兮池馆尽，琴瑟灭兮丘垄平。",
     };
   },
 }
@@ -63,6 +67,29 @@ export default {
     width: 100px;
 }
 .main{
-  text-align: center
+  text-align: center;
+  font-weight: bold;
+  font-size: 30px; 
+  display: flex;
+  flex-direction: row;
+  letter-spacing: 4px
+}
+#particles-js{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.typer span {
+  animation: flip-in 1s 0s ease-in-out both;
+}
+@keyframes flip-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 </style>
