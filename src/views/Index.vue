@@ -10,6 +10,9 @@
         <img src="../assets/img/logo.png">
       </router-link>
     </div>
+    <!-- <router-link to="/">
+    <div id="lo"></div>
+    </router-link> -->
     <div class="main">
       <div class="typer" style="width:280px;">
       <span v-for="(item, index) in str" :key="index" v-bind:style="{animationDelay: `${0.5 + index * 0.3}s`}" v-html="item"></span>
@@ -62,10 +65,34 @@ export default {
     position:absolute;
     top: 32px;
     left: 32px;
+    border-radius:80px;     /*圆角*/
+    transition: all 1.0s;
 }
 .logo img{
-    width: 100px;
+    width: 80px;
 }
+.logo:hover{     
+  transform: rotate(360deg);
+  -ms-transform: rotate(360deg);
+  /* IE 9 */
+  -moz-transform: rotate(360deg);
+  /* Firefox */
+  -webkit-transform: rotate(360deg);
+  /* Safari 和 Chrome */
+  -o-transform: rotate(360deg);
+  /* Opera */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);    
+}
+@keyframes run{     
+  from{     
+      -webkit-transform:rotate(360deg);     
+    }     
+   to{     
+      -webkit-transform:rotate(0deg);     
+    }     
+  }
+  /* 360-0 向左旋转 0-360 向右旋转 */
+
 .main{
   text-align: center;
   font-weight: bold;
@@ -80,6 +107,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
+  background-color:cornsilk
 }
 .typer span {
   animation: flip-in 1s 0s ease-in-out both;
