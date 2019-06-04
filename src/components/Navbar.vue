@@ -214,7 +214,7 @@ nav {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 9999;
+  z-index: 1000;
 }
 nav .width-limit {
   min-width: 768px;
