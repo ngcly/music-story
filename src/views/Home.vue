@@ -29,9 +29,9 @@
                 <a class="title" href="#" v-text="item.title"></a>
                 <p class="abstract" v-text="item.content"></p>
                 <div class="meta">
-                  <a class="nickname" v-text="item.username"></a>
-                  <a><i class="iconfont ic-list-comments">{{item.read_num}}</i></a>
-                  <span><i class="iconfont ic-list-like">{{item.updated_time}}</i></span>
+                  <a><i class="el-icon-user-solid"> {{item.username}}</i></a>
+                  <a><i class="iconfont icon-view"> {{item.read_num}}</i></a>
+                  <span><i class="iconfont icon-14"> {{item.updated_time}}</i></span>
                 </div>
               </div>
             </li>
