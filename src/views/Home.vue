@@ -3,7 +3,9 @@
     <el-row>
       <el-col :span="24">
         <div>
-          <Scroller :lists="notice" class="scrollerContainer left"/>
+          <Scroller :delay="0.5" :speed="100" :content="notice">
+            <span v-for="(item, index) in notice" :key="index">{{item}}</span>
+          </Scroller>
         </div>
       </el-col>
     </el-row>
@@ -65,13 +67,14 @@ export default {
     api.carousel().then(response => {
       this.carousel = response.data;
     }),
-      api.notice().then(response => {
-        for (var i = 0; i < response.data.length; i++)
-          this.notice.push(response.data[i].content);
-      }),
-      api.essays("", "/10/1").then(response => {
-        this.essays = response.data;
+    api.notice().then(response => {
+      response.data.forEach(element => {
+        this.notice.push(element.content);
       });
+    }),
+    api.essays("", "/10/1").then(response => {
+      this.essays = response.data;
+    });
   }
 };
 </script>
