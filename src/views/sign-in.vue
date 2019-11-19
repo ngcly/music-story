@@ -70,7 +70,9 @@
             return {
                 loginForm: {
                     username:'',
-                    password:''
+                    password:'',
+                    client_id:'cloud_client',
+                    client_secret:'secret'
                 },
                 rules: {
                     username: [
@@ -89,7 +91,7 @@
                         this.$store.dispatch("Login",this.loginForm)
                         .then(() => {
                             this.loading = false;
-                            this.$router.push(this.$route.query.redirect || '/home')
+                            this.$router.push(this.$route.query.redirect || '/')
                             }).catch(() => {this.loading = false;});
                     }else{
                         return false;

@@ -32,8 +32,8 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         api.login(userInfo).then(response => {
           const data = response.data;
-          Cookies.set('token',data.accessToken);
-          commit('SET_TOKEN', data.accessToken);
+          Cookies.set('token',data.access_token);
+          commit('SET_TOKEN', data.access_token);
           resolve()
         }).catch(error => {
           reject(error)

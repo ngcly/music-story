@@ -38,7 +38,7 @@ service.interceptors.request.use(
     response => {
         const res = response.data
         switch(res.code){
-            case 200: return res
+            case 0: return res
             case 401:
             // 返回 401 清除token信息并跳转到登录页面
             store.commit('SET_TOKEN',null);
