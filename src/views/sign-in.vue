@@ -70,9 +70,7 @@
             return {
                 loginForm: {
                     username:'',
-                    password:'',
-                    client_id:'cloud_client',
-                    client_secret:'secret'
+                    password:''
                 },
                 rules: {
                     username: [
