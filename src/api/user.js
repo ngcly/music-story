@@ -1,7 +1,7 @@
 const api = [
     {
         name: "login",
-        url: "/signin?client_id=cloud_client&client_secret=secret",
+        url: "/signin?client_id=music_story&client_secret=secret",
         method: "post"
     },
     {
