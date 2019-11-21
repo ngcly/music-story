@@ -5,14 +5,19 @@ const api = [
         method: "post"
     },
     {
+        name: "relogin",
+        url: "/signin",
+        method: "get"
+    },
+    {
         name: "signup",
         url: "/signup",
         method: "post"
     },
     {
         name: "logout",
-        url: "/logout",
-        method: "post"
+        url: "/signout",
+        method: "delete"
     },
     {
         name: "userInfo",

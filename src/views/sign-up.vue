@@ -10,9 +10,9 @@
         <div class="main">
             <div class="title">
                 <h4>
-                    <router-link to="/sign-in">登录</router-link>
+                    <router-link to="/signin">登录</router-link>
                     <b>·</b>
-                    <router-link class="active" to="/sign-up">注册</router-link>
+                    <router-link class="active" to="/signup">注册</router-link>
                 </h4>
             </div>
             <el-form :model="signupForm" :rules="rules" ref="signupForm">

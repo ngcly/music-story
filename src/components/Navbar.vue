@@ -16,10 +16,10 @@
         </router-link>
         <!--登录和注册按钮-->
         <router-link v-if="!isLogin"
-          to="/sign-up" 
+          to="/signup" 
           class="btn sign-up">注册</router-link>
         <router-link v-if="!isLogin"
-          to="/sign-in" 
+          to="/signin" 
           class="btn sign-in">登录</router-link>
         <!--如果用户登录，那么显示用户头像-->
         <div v-if="isLogin"
@@ -177,7 +177,7 @@ export default {
   },
   methods: {
     logout(){
-      this.$store.dispatch('LogOut').then(()=>{
+      this.$store.dispatch('LogOut','/'+this.$store.state.token.access_token).then(()=>{
        location.reload() // 为了重新实例化vue-router对象 避免bug
       })
     }

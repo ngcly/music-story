@@ -21,7 +21,8 @@ const service = axios.create({
 service.interceptors.request.use(
     config => {
         if (store.state.token) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
-            config.headers.Authorization = `Bearer ${Cookies.get('token')}`;
+            var tokenInfo = JSON.parse(`${Cookies.get('token')}`);
+            config.headers.Authorization = tokenInfo.token_type+' '+tokenInfo.access_token;
         }
         return config;
     },
@@ -45,10 +46,19 @@ service.interceptors.request.use(
             Message.error({
                 message:res.msg,
                 onClose: ()=> router.replace({
-                    path: 'login',
+                    path: 'signin',
                     query: {redirect: router.currentRoute.fullPath}
                 })
             })
+            break;
+            case 409:
+                if(store.state.token){
+                    return doRequest(response);
+                }else{
+                    Message.error({
+                        message:res.msg
+                    })
+                }
             break;
             default:
             Message.error({
@@ -65,5 +75,13 @@ service.interceptors.request.use(
         })
         return Promise.reject(error)   // 返回接口返回的错误信息
     })
+
+    async function doRequest(response) {
+        await store.dispatch("Relogin",{client_id:'music_story',client_secret:'secret',refresh_token:JSON.parse(`${Cookies.get('token')}`).refresh_token});
+        let config = response.config;
+        config.headers.Authorization=store.state.token.token_type+' '+store.state.token.access_token;
+        const res = await axios.request(response.config);
+        return res.data;
+    }
 
     export default service

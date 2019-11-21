@@ -162,7 +162,7 @@
     opacity:0.8;
 }
 .sign .btn-primary{
-    background: #498ad5
+    width: 300px;
 }
 @media (max-width:768px) {
     .sign .logo{

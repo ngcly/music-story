@@ -32,8 +32,20 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         api.login(userInfo).then(response => {
           const data = response.data;
-          Cookies.set('token',data.access_token);
-          commit('SET_TOKEN', data.access_token);
+          Cookies.set('token',data);
+          commit('SET_TOKEN', data);
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    Relogin({ commit }, freshToken){
+      return new Promise((resolve,reject) =>{
+        api.relogin(freshToken).then(response => {
+          const data = response.data;
+          Cookies.set('token',data);
+          commit('SET_TOKEN', data);
           resolve()
         }).catch(error => {
           reject(error)
@@ -41,8 +53,9 @@ export default new Vuex.Store({
       })
     },
     // 登出
-    LogOut({ commit }) {
+    LogOut({ commit }, accessToken) {
       return new Promise(resolve => {
+        api.logout("",accessToken);
         commit('SET_TOKEN', null)
         Cookies.remove('token')
         resolve()

@@ -23,7 +23,7 @@ router.beforeEach((to,from,next) => {
         customClass:'my-message',
         message:'该页面需登录，即将自动跳转登录页。',
         onClose: ()=>next({
-          path: '/sign-in',
+          path: '/signin',
           query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
         })
       })

@@ -28,12 +28,12 @@ export default new Router({
       component: Index
     },
     {
-      path: '/sign-in',
+      path: '/signin',
       name: 'signin',
       component: SignIn
     },
     {
-      path: '/sign-up',
+      path: '/signup',
       name: 'signup',
       component: SignUp
     },

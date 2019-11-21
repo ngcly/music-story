@@ -10,12 +10,12 @@
         <div class="main">
             <div class="title">
                 <h4>
-                    <router-link class="active" to="/sign-in">登录</router-link>
+                    <router-link class="active" to="/signin">登录</router-link>
                     <b>·</b>
-                    <router-link to="/sign-up">注册</router-link>
+                    <router-link to="/signup">注册</router-link>
                 </h4>
             </div>
-            <el-form :model="loginForm" :rules="rules" ref="loginForm">
+            <el-form :model="loginForm" :rules="rules" ref="loginForm" @submit.native.prevent>
                 <el-form-item prop="username" class="input-prepend">
                     <el-input class="top-radius" placeholder="手机号或邮箱" v-model="loginForm.username"></el-input>
                     <i class="fa fa-user"></i>
@@ -33,7 +33,9 @@
                         登录遇到问题?
                     </router-link>
                 </div>
-                <input class="btn btn-primary" type="button" value="登录" @click="login('loginForm')">
+                <el-form-item>
+                <el-button class="btn btn-primary" type="primary" round @click="login('loginForm')" native-type="submit">登录</el-button>
+                </el-form-item>
             </el-form>
             <div class="more-sign">
                 <p>社交账号登录</p>
