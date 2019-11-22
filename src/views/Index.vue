@@ -14,7 +14,7 @@
     <div id="lo"></div>
     </router-link> -->
     <div class="main">
-      <div class="typer" style="width:280px;">
+      <div class="typer" style="width:280px;color:#164C7B;">
       <span v-for="(item, index) in str" :key="index" v-bind:style="{animationDelay: `${0.5 + index * 0.3}s`}" v-html="item"></span>
     </div>
     </div>
@@ -94,6 +94,7 @@ export default {
   /* 360-0 向左旋转 0-360 向右旋转 */
 
 .main{
+  padding-left: 20%;
   text-align: center;
   font-weight: bold;
   font-size: 30px; 
@@ -107,7 +108,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color:cornsilk
+  background-image: url('../assets/img/bg-min.jpg')
 }
 .typer span {
   animation: flip-in 1s 0s ease-in-out both;

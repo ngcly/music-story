@@ -21,7 +21,7 @@ const service = axios.create({
 service.interceptors.request.use(
     config => {
         if (store.state.token) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
-            var tokenInfo = JSON.parse(`${Cookies.get('token')}`);
+            var tokenInfo = Cookies.getJSON('token');
             config.headers.Authorization = tokenInfo.token_type+' '+tokenInfo.access_token;
         }
         return config;
@@ -77,7 +77,7 @@ service.interceptors.request.use(
     })
 
     async function doRequest(response) {
-        await store.dispatch("Relogin",{client_id:'music_story',client_secret:'secret',refresh_token:JSON.parse(`${Cookies.get('token')}`).refresh_token});
+        await store.dispatch("Relogin",{client_id:'music_story',client_secret:'secret',refresh_token:Cookies.getJSON('token').refresh_token});
         let config = response.config;
         config.headers.Authorization=store.state.token.token_type+' '+store.state.token.access_token;
         const res = await axios.request(response.config);

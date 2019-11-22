@@ -32,7 +32,7 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         api.login(userInfo).then(response => {
           const data = response.data;
-          Cookies.set('token',data);
+          Cookies.set('token',data,{expires: 7});
           commit('SET_TOKEN', data);
           resolve()
         }).catch(error => {
@@ -44,7 +44,7 @@ export default new Vuex.Store({
       return new Promise((resolve,reject) =>{
         api.relogin(freshToken).then(response => {
           const data = response.data;
-          Cookies.set('token',data);
+          Cookies.set('token',data,{expires: 7});
           commit('SET_TOKEN', data);
           resolve()
         }).catch(error => {
@@ -65,7 +65,6 @@ export default new Vuex.Store({
     GetUserInfo({commit}) {
       return new Promise((resolve, reject) => {
         api.userInfo().then(response => {
-          // const data = response.data
           commit('SET_USER', response.data);
           resolve()
         }).catch(error => {
@@ -77,7 +76,6 @@ export default new Vuex.Store({
     UpdateUser({commit}){
       return new Promise((resolve, reject) => {
         api.UpdateUser().then(response => {
-          // const data = response.data
           commit('SET_USER', response.data);
           resolve()
         }).catch(error => {
