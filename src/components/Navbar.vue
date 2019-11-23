@@ -27,10 +27,8 @@
           @mouseover="personShow=true" 
           @mouseout="personShow=false">
           <div class="drop-down">
-            <router-link 
-              class="avatar" 
-              to="/u/123">
-             <img :src="userInfo.avatar||avatar">
+            <router-link class="avatar" to="/u/123">
+              <el-avatar :size="40" :src="userInfo.avatar||avatar"></el-avatar>
             </router-link>
           </div>
           <div 
@@ -161,7 +159,7 @@ export default {
       personShow: false,
       notifyShow: false,
       bgShow: false,
-      avatar:require('../assets/img/user.jpg')
+      avatar:require('../assets/img/avatar.png')
     }
   },
   computed: {

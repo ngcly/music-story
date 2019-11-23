@@ -17,7 +17,7 @@
             </div>
             <el-form :model="loginForm" :rules="rules" ref="loginForm" @submit.native.prevent>
                 <el-form-item prop="username" class="input-prepend">
-                    <el-input class="top-radius" placeholder="手机号或邮箱" v-model="loginForm.username"></el-input>
+                    <el-input class="top-radius" placeholder="用户名或邮箱" v-model="loginForm.username"></el-input>
                     <i class="fa fa-user"></i>
                 </el-form-item>
                 <el-form-item prop="password" class="input-prepend">
@@ -66,7 +66,8 @@
     </div>
 </template>
 <script>
-    import '../assets/css/sign.css'
+    import '../assets/css/sign.css';
+    import md5 from 'js-md5';
     export default {
         data(){
             return {
@@ -88,7 +89,12 @@
             login(formName){
                 this.$refs[formName].validate((valid)=>{
                     if(valid){
-                        this.$store.dispatch("Login",this.loginForm)
+                        this.loading = true;
+                        //利用JSON转换 避免对象直接赋值造成指向相同地址以至于相互影响的问题
+                        let userInfo = JSON.parse(JSON.stringify(this.loginForm));
+                        //密码 MD5 加密
+                        userInfo.password = md5(userInfo.password);
+                        this.$store.dispatch("Login",userInfo)
                         .then(() => {
                             this.loading = false;
                             this.$router.push(this.$route.query.redirect || '/')

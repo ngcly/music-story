@@ -138,7 +138,7 @@
     background:rgb(248,248,248);
     color:#939393;
 }
-.sign .main form input.sign-up-btn{
+.sign .main form {
     margin-top: 20px;
 }
 .sign .main form p.sign-up-msg{
@@ -161,7 +161,7 @@
     color:white !important;
     opacity:0.8;
 }
-.sign .btn-primary{
+.sign .btn-primary, .btn-info{
     width: 300px;
 }
 @media (max-width:768px) {
