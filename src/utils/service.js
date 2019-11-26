@@ -4,14 +4,7 @@ import router from '../router'
 import Cookies from 'js-cookie'
 import { Message } from 'element-ui';
 
-let api_url = "";
-if(process.env.NODE_ENV === 'production'){
-    //生产环境
-    api_url = "https://api.ngcly.cn";
-}else{
-    //开发环境
-    api_url = "http://localhost:8070";
-}
+let api_url = process.env.VUE_APP_BASE_API;
 const service = axios.create({
     baseURL: api_url,
     timeout: 5000

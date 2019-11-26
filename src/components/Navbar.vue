@@ -151,6 +151,7 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+import {initWebSocket} from '../utils/websocket';
 
 export default {
   name: 'Navbar',
@@ -159,7 +160,8 @@ export default {
       personShow: false,
       notifyShow: false,
       bgShow: false,
-      avatar:require('../assets/img/avatar.png')
+      avatar:require('../assets/img/avatar.png'),
+      stompClient:''
     }
   },
   computed: {
@@ -172,12 +174,32 @@ export default {
     if(this.$store.state.token){
       this.$store.dispatch('GetUserInfo')
     }
+    if(this.stompClient===""){
+      this.stompClient=initWebSocket();
+      // 定义客户端的认证信息,按需求配置
+        let headers = {
+            Authorization:'' //用户身份验证信息
+        }
+        // 向服务器发起websocket连接
+        this.stompClient.connect(headers,() => {
+            this.stompClient.subscribe('/topic/notify', (msg) => { // 订阅服务端提供的某个topic
+                window.console.log(msg);
+            },headers);
+        }, (err)=>{
+            window.console.log(err);
+        });
+    }
   },
   methods: {
     logout(){
       this.$store.dispatch('LogOut','/'+this.$store.state.token.access_token).then(()=>{
        location.reload() // 为了重新实例化vue-router对象 避免bug
       })
+    }
+  },
+  beforeDestroy() {
+    if(this.stompClient){
+      this.stompClient.disconnect();
     }
   }
 }
