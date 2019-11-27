@@ -151,7 +151,6 @@
 </template>
 <script>
 import { mapState } from 'vuex';
-import Cookies from 'js-cookie';
 import {initWebSocket} from '../utils/websocket';
 
 export default {
@@ -171,22 +170,22 @@ export default {
       userInfo: state => state.user
     })
   },
-  mounted(){
-    let headers = {
-      Authorization:''
-    }
+  created(){
     if(this.$store.state.token){
       this.$store.dispatch('GetUserInfo');
-      var tokenInfo = Cookies.getJSON('token');
-      headers.Authorization = tokenInfo.token_type+' '+tokenInfo.access_token;
     }
+  },
+  mounted(){
     if(this.stompClient===""){
       this.stompClient=initWebSocket();
       // 向服务器发起websocket连接
-      this.stompClient.connect(headers,() => {
-        this.stompClient.subscribe('/topic/notify', (msg) => { // 订阅服务端提供的某个topic
+      this.stompClient.connect({},() => {
+        this.stompClient.subscribe('/topic/notify', (msg) => { // 订阅群消息
           window.console.log(msg);
-        },headers);
+        });
+        this.stompClient.subscribe('/user/'+this.userInfo.username+'/queue/notify', (msg) => { // 订阅个人消息
+          window.console.log(msg);
+        });
       }, (err)=>{
           window.console.log(err);
       });
