@@ -10,10 +10,7 @@ import 'normalize.css'
 import 'font-awesome/css/font-awesome.min.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/main.css'
-// import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 

@@ -22,7 +22,7 @@
                 </el-form-item>
                   <el-form-item class="input-prepend" prop="email">
                     <el-input class="top-radius" placeholder="邮箱" v-model="signupForm.email"></el-input>
-                    <i class="fa iconfont icon-email"></i>
+                    <i class="fa fa-envelope" aria-hidden="true"></i>
                 </el-form-item>
                 <!-- <el-form-item class="input-prepend" prop="phone">
                     <el-input placeholder="手机号" v-model="signupForm.phone"></el-input>

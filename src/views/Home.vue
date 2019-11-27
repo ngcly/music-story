@@ -31,9 +31,9 @@
                 <a class="title" href="#" v-text="item.title"></a>
                 <p class="abstract" v-text="item.content"></p>
                 <div class="meta">
-                  <a><i class="iconfont icon-user"> {{item.username}}</i></a>
-                  <a><i class="iconfont icon-view1"> {{item.read_num}}</i></a>
-                  <span><i class="iconfont icon-comment"> {{item.updated_time}}</i></span>
+                  <a><i class="fa fa-user" aria-hidden="true"> {{item.username}}</i></a>
+                  <a><i class="fa fa-eye" aria-hidden="true"> {{item.read_num}}</i></a>
+                  <span><i class="fa fa-comment" aria-hidden="true"> {{item.updated_time}}</i></span>
                 </div>
               </div>
             </li>
