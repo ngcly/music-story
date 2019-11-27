@@ -1,11 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
-import Index from './views/Index.vue'
-import SignIn from './views/sign-in.vue'
-import SignUp from './views/sign-up.vue'
-import Layout from './components/Layout'
-import Create from './views/Create.vue'
 
 Vue.use(Router)
 
@@ -15,27 +9,27 @@ export default new Router({
   routes: [
     {
       path: '/',
-      component: Layout,
+      component: ()=> import('./components/Layout'),
       children: [{
         path: '/',
         name: 'home',
-        component: Home
+        component: ()=> import('./views/Home.vue')
       }]
     },
     {
       path: '/index',
       name: 'index',
-      component: Index
+      component: ()=> import('./views/Index.vue')
     },
     {
       path: '/signin',
       name: 'signin',
-      component: SignIn
+      component: ()=> import('./views/sign-in.vue')
     },
     {
       path: '/signup',
       name: 'signup',
-      component: SignUp
+      component: ()=> import('./views/sign-up.vue')
     },
     {
       path: '/create',
@@ -43,7 +37,7 @@ export default new Router({
       meta: {
         requireAuth: true //表示进入该路由需要登录
       },
-      component: Create
+      component: ()=> import('./views/Create.vue')
     },
     {
       path: '/404',
