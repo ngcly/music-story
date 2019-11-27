@@ -8,10 +8,15 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.25",
+    "@fortawesome/free-solid-svg-icons": "^5.11.2",
+    "@fortawesome/vue-fontawesome": "^0.1.8",
     "@moefe/vue-aplayer": "^2.0.0-beta.3",
+    "animate.css": "^3.7.2",
     "axios": "^0.19.0",
     "core-js": "^3.3.2",
     "element-ui": "^2.12.0",
+    "font-awesome": "^4.7.0",
     "install": "^0.13.0",
     "js-cookie": "^2.2.1",
     "js-md5": "^0.7.3",
@@ -31,6 +36,7 @@
     "compression-webpack-plugin": "^3.0.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0-0",
+    "normalize.css": "^8.0.1",
     "vue-cli-plugin-element": "^1.0.0",
     "vue-particles": "^1.0.9",
     "vue-template-compiler": "^2.6.10"
