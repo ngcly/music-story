@@ -64,7 +64,6 @@
 </template>
 <script>
     import '../assets/css/sign.css';
-    import { Message } from 'element-ui';
     import md5 from 'js-md5';
     import api from "@/api/api";
     export default {
@@ -101,7 +100,7 @@
                         userInfo.password = md5(userInfo.password);
                         api.signup(userInfo).then(response => {
                             this.loading = false;
-                            Message.success({message:response.data+": 注册成功！请前往邮箱进行激活"});
+                            this.$message.success({message:response.data+": 注册成功！请前往邮箱进行激活"});
                             this.$router.push('/signin');
                         })
                     }else{

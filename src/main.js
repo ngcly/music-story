@@ -2,24 +2,37 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import ElementUI from 'element-ui';
+import { Message,Row,Col,Form,FormItem,Upload,Button,Input,Carousel,CarouselItem,Loading,Avatar } from 'element-ui';
 
 /*引入公共样式*/
 import 'animate.css'
 import 'normalize.css'
 import 'font-awesome/css/font-awesome.min.css'
-import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/main.css'
 
 Vue.config.productionTip = false
-Vue.use(ElementUI)
+Vue.component(Message.name, Message)
+Vue.component(Row.name, Row);
+Vue.component(Col.name, Col);
+Vue.component(Form.name, Form);
+Vue.component(FormItem.name, FormItem);
+Vue.component(Upload.name, Upload);
+Vue.component(Button.name, Button);
+Vue.component(Input.name, Input);
+Vue.component(Carousel.name, Carousel);
+Vue.component(CarouselItem.name, CarouselItem);
+Vue.component(Avatar.name, Avatar);
+Vue.use(Loading.directive);
+
+Vue.prototype.$loading = Loading.service;
+Vue.prototype.$message = Message;
 
 router.beforeEach((to,from,next) => {
   if(to.meta.requireAuth){ //判断该路由是否需要登录权限
     if(store.state.token){ //通过vuex state获取当前的token是否存在
       next();
     }else{
-      ElementUI.Message.error({
+      this.$message.error({
         customClass:'my-message',
         message:'该页面需登录，即将自动跳转登录页。',
         onClose: ()=>next({

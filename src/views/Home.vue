@@ -48,9 +48,9 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import Scroller from "@/components/Scroller.vue";
-import api from "@/api/api";
+import Scroller from "@/components/Scroller.vue"
+import api from "@/api/api"
+
 export default {
   name: "home",
   components: {
