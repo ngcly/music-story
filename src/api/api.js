@@ -36,6 +36,12 @@ const commonApi = [
         name: "comments",
         url: "/comments",
         method: "get"
+    },
+    {
+        name: "upload",
+        url: "/user/upload",
+        method: "post",
+        headers: { 'Content-Type': 'multipart/form-data' }
     }
 ]
 
