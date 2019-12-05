@@ -15,9 +15,10 @@ export default new Router({
         name: 'home',
         component: ()=> import('./views/Home.vue')
       },{
-        path: '/essayDetail',
+        path: '/essayDetail/:id',
         name: 'essayDetail',
-        component: ()=> import('./views/EssayDetail.vue')
+        component: ()=> import('./views/EssayDetail.vue'),
+        props: true
       }]
     },
     {
