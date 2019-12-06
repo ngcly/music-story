@@ -28,7 +28,7 @@
           <ul class="note-list" infinite-scroll-url="/">
             <li v-for="(item, index) in essays" :key="index">
               <div class="content">
-                <a class="title" href="#" @click="toDetail(item.id)" v-text="item.title"></a>
+                <router-link :to="{path: '/essayDetail/'+item.id}" v-text="item.title" class="title"></router-link>
                 <p class="abstract" v-text="item.content"></p>
                 <div class="meta">
                   <a><i class="fa fa-user" aria-hidden="true"> {{item.username}}</i></a>
@@ -75,16 +75,11 @@ export default {
     api.essays("", "/10/1").then(response => {
       this.essays = response.data;
     });
-  },
-  methods: {
-    toDetail(id){
-      this.$router.push({path: `/essayDetail/${id}`})
-    }
   }
 };
 </script>
 
-<style>
+<style scoped>
 .scrollContainer {
   color: #ffffff;
   font-size: 16px;

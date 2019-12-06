@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="main">
-        <section>
+        <section class="bgw art">
           <h1 class="title" v-text="essayDetail.title"></h1>
           <div class="essay-us">
             <div class="us-box">
@@ -48,12 +48,19 @@
                 </el-form>
               </div>
             </div>
-            <h3>全部评论</h3>
+            <h3 class="cmt">
+              <div class="cmt-info">
+                <span class="cmt-all">全部评论</span>
+                <span class="cmt-num">1</span>
+              </div>
+            </h3>
             <div></div>
           </section>
         </div>
       </div>
-      <div>待填充</div>
+      <aside style="width: 260px;">
+        <section class="bgw extral">待填充</section>
+      </aside>
     </div>
   </div>
 </template>
@@ -91,12 +98,21 @@ export default {
 
 <style scoped>
 .container {
-  width: 960px;
-  margin-right: auto;
+  background-color: #f9f9f9;
+}
+.row {
+  box-sizing: initial;
+  width: 1000px;
+  padding-left: 16px;
+  padding-right: 16px;
   margin-left: auto;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 30px;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: calc(100vh - 66px);
+  padding-top: 10px;
+  font-size: 16px;
 }
 *,
 :after,
@@ -104,12 +120,18 @@ export default {
   box-sizing: border-box;
 }
 .main {
-  padding-top: 30px;
-  padding-right: 0;
-  width: 76.11%;
+  flex-shrink: 0;
+  width: 730px;
+  margin-bottom: 24px;
+  margin-right: 10px;
 }
-.index .main .split-line {
-  margin: -5px 0 15px;
+.bgw {
+  background-color: #fff;
+}
+.art {
+  border-radius: 4px;
+  margin-bottom: 10px;
+  padding: 24px;
 }
 .title {
   font-size: 30px;
@@ -154,11 +176,42 @@ export default {
   margin-bottom: 48px;
   flex-grow: 1;
 }
+.cmt {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-left: 12px;
+    border-left: 4px solid #ec7259;
+    font-size: 18px;
+    font-weight: 500;
+    height: 20px;
+    line-height: 20px;
+}
+.cmt-info {
+    display: flex;
+    align-items: center;
+}
+.cmt-all {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 20px;
+}
+.cmt-num {
+    margin-left: 6px;
+    font-size: 14px;
+    font-weight: normal;
+}
 .cm-s {
   display: flex;
   justify-content: space-between;
   font-size: 14px;
   color: #969696;
   align-items: center;
+}
+.extral {
+  padding: 16px;
+  border-radius: 4px;
+  margin-bottom: 10px;
 }
 </style>>
