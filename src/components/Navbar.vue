@@ -160,7 +160,7 @@ export default {
       personShow: false,
       notifyShow: false,
       bgShow: false,
-      avatar:require('../assets/img/avatar.png'),
+      avatar: require('../assets/img/avatar.png'),
       stompClient:''
     }
   },

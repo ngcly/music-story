@@ -28,7 +28,7 @@
         <div id="page-comment">
           <section class="pg-comment">
             <div style="display:flex;">
-              <el-avatar :size="40" :src="essayDetail.user.avatar"></el-avatar>
+              <el-avatar :size="40" :src="this.$parent.avatar"></el-avatar>
               <div class="comment-form">
                 <el-form>
                   <el-form-item>
@@ -85,13 +85,17 @@ export default {
           username: "",
           avatar: ""
         }
-      }
+      },
+      comments: []
     };
   },
   mounted() {
     api.essays("", "/" + this.id).then(response => {
       this.essayDetail = response.data;
     });
+    api.comments("","/"+this.id+"/1").then(response => {
+      this.comments = response.data;
+    })
   }
 };
 </script>>

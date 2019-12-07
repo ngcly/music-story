@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import { Message,Row,Col,Form,FormItem,Upload,Button,Input,Carousel,CarouselItem,Loading,Avatar } from 'element-ui';
+import { Message,Row,Col,Form,FormItem,Upload,Button,Input,Carousel,CarouselItem,Loading,Avatar,Backtop } from 'element-ui';
 
 /*引入公共样式*/
 import 'animate.css'
@@ -29,6 +29,7 @@ Vue.component(Input.name, Input);
 Vue.component(Carousel.name, Carousel);
 Vue.component(CarouselItem.name, CarouselItem);
 Vue.component(Avatar.name, Avatar);
+Vue.component(Backtop.name, Backtop);
 Vue.use(Loading.directive);
 
 Vue.prototype.$loading = Loading.service;

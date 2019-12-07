@@ -1,5 +1,6 @@
 <template>
   <div class="container index">
+    <el-backtop target=".container"></el-backtop>
     <el-row>
       <el-col :span="24">
         <div>
@@ -60,8 +61,30 @@ export default {
     return {
       carousel: [{}],
       notice: [],
-      essays: []
+      essays: [],
+      page: 1
     };
+  },
+  methods: {
+      scroll(essays) {
+      let isLoading = false
+      window.onscroll = () => {
+        // 距离底部200px时加载一次
+        let bottomOfWindow = document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight <= 50
+        if (bottomOfWindow && isLoading == false) {
+          isLoading = true
+          this.page++;
+          api.essays("", "/10/"+this.page).then(response => {
+            if(response.data&&response.data.length>0){
+              essays.push(response.data);
+              isLoading = false;
+            }else{
+              window.console.log("没有更多内容了");
+            }
+          });
+        }
+      }
+    }
   },
   mounted() {
     api.carousel().then(response => {
@@ -72,9 +95,10 @@ export default {
         this.notice.push(element.content);
       });
     }),
-    api.essays("", "/10/1").then(response => {
+    api.essays("", "/10/"+this.page).then(response => {
       this.essays = response.data;
-    });
+    })
+    this.scroll(this.essays)
   }
 };
 </script>
