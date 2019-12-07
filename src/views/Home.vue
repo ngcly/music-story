@@ -1,12 +1,11 @@
 <template>
   <div class="container index">
-    <el-backtop target=".container"></el-backtop>
     <el-row>
       <el-col :span="24">
         <div>
-          <Scroller :delay="0.5" :speed="100" :content="notice">
+          <Acquaint :delay="0.5" :speed="100" :content="notice">
             <span v-for="(item, index) in notice" :key="index">{{item}}</span>
-          </Scroller>
+          </Acquaint>
         </div>
       </el-col>
     </el-row>
@@ -17,7 +16,7 @@
           <el-carousel height="250px">
             <el-carousel-item v-for="item in carousel" :key="item.id">
               <a target="_blank" :href="item.forwardUrl">
-                <img :src="item.imageUrl" class="imgCarousel">
+                <img :src="item.imageUrl" class="imgCarousel" />
               </a>
             </el-carousel-item>
           </el-carousel>
@@ -26,79 +25,88 @@
         <div class="split-line"></div>
 
         <div class="list-container">
-          <ul class="note-list" infinite-scroll-url="/">
-            <li v-for="(item, index) in essays" :key="index">
-              <div class="content">
-                <router-link :to="{path: '/essayDetail/'+item.id}" v-text="item.title" class="title"></router-link>
-                <p class="abstract" v-text="item.content"></p>
-                <div class="meta">
-                  <a><i class="fa fa-user" aria-hidden="true"> {{item.username}}</i></a>
-                  <a><i class="fa fa-eye" aria-hidden="true"> {{item.read_num}}</i></a>
-                  <span><i class="fa fa-comment" aria-hidden="true"> {{item.updated_time}}</i></span>
-                </div>
-              </div>
+          <ul class="list">
+            <li v-for="(essay, indx) in essays" :key="indx">
+              <ul class="note-list" infinite-scroll-url="/">
+                <li v-for="(item, index) in essay" :key="index">
+                  <div class="content">
+                    <router-link
+                      :to="{path: '/essayDetail/'+item.id}"
+                      v-text="item.title"
+                      class="title"
+                    ></router-link>
+                    <p class="abstract" v-text="item.content"></p>
+                    <div class="meta">
+                      <a>
+                        <i class="fa fa-user" aria-hidden="true">{{item.username}}</i>
+                      </a>
+                      <a>
+                        <i class="fa fa-eye" aria-hidden="true">{{item.read_num}}</i>
+                      </a>
+                      <span>
+                        <i class="fa fa-comment" aria-hidden="true">{{item.updated_time}}</i>
+                      </span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
             </li>
           </ul>
+          <el-button type="info" round class="load-more" @click="load()" v-if="noMore == false">阅读更多</el-button>
+          <p v-if="noMore">没有更多了</p>
+          <el-backtop target=".container" :visibility-height="50"></el-backtop>
         </div>
       </div>
-      <div class="col-xs-7 col-xs-offset-1 aside">
-        待填充
-      </div>
+      <div class="col-xs-7 col-xs-offset-1 aside">待填充</div>
     </div>
   </div>
 </template>
 
 <script>
-import Scroller from "@/components/Scroller.vue"
-import api from "@/api/api"
+import Acquaint from "@/components/Acquaint.vue";
+import api from "@/api/api";
 
 export default {
   name: "home",
   components: {
-    Scroller
+    Acquaint
   },
   data() {
     return {
       carousel: [{}],
       notice: [],
       essays: [],
-      page: 1
+      page: 1,
+      noMore: false
     };
   },
   methods: {
-      scroll(essays) {
-      let isLoading = false
-      window.onscroll = () => {
-        // 距离底部200px时加载一次
-        let bottomOfWindow = document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight <= 50
-        if (bottomOfWindow && isLoading == false) {
-          isLoading = true
+    load() {
+      this.loading = true;
+      api.essays("", "/10/" + this.page).then(response => {
+        if (response.data && response.data.length > 0) {
+          this.essays.push(response.data);
+          if(response.data.length < 10){
+            this.noMore = true;
+          }
           this.page++;
-          api.essays("", "/10/"+this.page).then(response => {
-            if(response.data&&response.data.length>0){
-              essays.push(response.data);
-              isLoading = false;
-            }else{
-              window.console.log("没有更多内容了");
-            }
-          });
+          this.loading = false;
+        } else {
+          this.noMore = true;
         }
-      }
+      });
     }
   },
   mounted() {
     api.carousel().then(response => {
       this.carousel = response.data;
     }),
-    api.notice().then(response => {
-      response.data.forEach(element => {
-        this.notice.push(element.content);
-      });
-    }),
-    api.essays("", "/10/"+this.page).then(response => {
-      this.essays = response.data;
-    })
-    this.scroll(this.essays)
+      api.notice().then(response => {
+        response.data.forEach(element => {
+          this.notice.push(element.content);
+        });
+      }),
+      this.load();
   }
 };
 </script>
@@ -141,19 +149,21 @@ export default {
   padding-left: 15px;
   padding-right: 15px;
 }
-*, :after, :before {
-    box-sizing: border-box;
+*,
+:after,
+:before {
+  box-sizing: border-box;
 }
 .row {
   margin-left: -15px;
   margin-right: -15px;
 }
 .index .main {
-    padding-top: 30px;
-    padding-right: 0;
+  padding-top: 30px;
+  padding-right: 0;
 }
 .col-xs-16 {
-    width: 66.66667%;
+  width: 66.66667%;
 }
 .index .main .split-line {
   margin: -5px 0 15px;
@@ -185,33 +195,42 @@ export default {
   color: #999;
 }
 .note-list .meta {
-    padding-right: 0!important;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 20px;
+  padding-right: 0 !important;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
 }
 .note-list .meta a {
-    margin-right: 10px;
-    color: #b4b4b4;
+  margin-right: 10px;
+  color: #b4b4b4;
 }
 .iconfont {
-    font-family: iconfont!important;
-    font-size: inherit;
-    font-style: normal;
-    font-weight: 400!important;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  font-family: iconfont !important;
+  font-size: inherit;
+  font-style: normal;
+  font-weight: 400 !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 .index .aside {
-    padding: 30px 0 0;
+  padding: 30px 0 0;
 }
 .col-xs-offset-1 {
-    margin-left: 4.16667%;
+  margin-left: 4.16667%;
 }
 .col-xs-7 {
   width: 29.16667%;
 }
-.col-xs-7, .col-xs-16 {
-    float: left;
+.col-xs-7,
+.col-xs-16 {
+  float: left;
+}
+.load-more {
+  width: 100%;
+  height: 40px;
+  margin: 30px auto 60px;
+  padding: 10px 15px;
+  text-align: center;
+  font-size: 15px;
 }
 </style>
