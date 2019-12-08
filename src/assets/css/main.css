@@ -17,10 +17,6 @@ html, body {
     padding: 0;
 
 }
-body{
-    overflow: scroll;
-    overflow-x: hidden;
-}
 a, a:focus {
     text-decoration: none !important;
     color: inherit !important;

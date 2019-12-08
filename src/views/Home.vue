@@ -1,63 +1,73 @@
 <template>
-  <div class="container index">
-    <el-row>
-      <el-col :span="24">
-        <div>
-          <Acquaint :delay="0.5" :speed="100" :content="notice">
-            <span v-for="(item, index) in notice" :key="index">{{item}}</span>
-          </Acquaint>
-        </div>
-      </el-col>
-    </el-row>
+  <div class="container">
+    <div class="vessel">
+      <div class="index">
+        <el-row>
+          <el-col :span="24">
+            <div>
+              <Acquaint :delay="0.5" :speed="100" :content="notice">
+                <span v-for="(item, index) in notice" :key="index">{{item}}</span>
+              </Acquaint>
+            </div>
+          </el-col>
+        </el-row>
 
-    <div class="row">
-      <div class="col-xs-16 main">
-        <div class="block">
-          <el-carousel height="250px">
-            <el-carousel-item v-for="item in carousel" :key="item.id">
-              <a target="_blank" :href="item.forwardUrl">
-                <img :src="item.imageUrl" class="imgCarousel" />
-              </a>
-            </el-carousel-item>
-          </el-carousel>
-        </div>
+        <div class="row">
+          <div class="col-xs-16 main">
+            <div class="block">
+              <el-carousel height="250px">
+                <el-carousel-item v-for="item in carousel" :key="item.id">
+                  <a target="_blank" :href="item.forwardUrl">
+                    <img :src="item.imageUrl" class="imgCarousel" />
+                  </a>
+                </el-carousel-item>
+              </el-carousel>
+            </div>
 
-        <div class="split-line"></div>
+            <div class="split-line"></div>
 
-        <div class="list-container">
-          <ul class="list">
-            <li v-for="(essay, indx) in essays" :key="indx">
-              <ul class="note-list" infinite-scroll-url="/">
-                <li v-for="(item, index) in essay" :key="index">
-                  <div class="content">
-                    <router-link
-                      :to="{path: '/essayDetail/'+item.id}"
-                      v-text="item.title"
-                      class="title"
-                    ></router-link>
-                    <p class="abstract" v-text="item.content"></p>
-                    <div class="meta">
-                      <a>
-                        <i class="fa fa-user" aria-hidden="true">{{item.username}}</i>
-                      </a>
-                      <a>
-                        <i class="fa fa-eye" aria-hidden="true">{{item.read_num}}</i>
-                      </a>
-                      <span>
-                        <i class="fa fa-comment" aria-hidden="true">{{item.updated_time}}</i>
-                      </span>
-                    </div>
-                  </div>
+            <div class="list-container">
+              <ul class="list">
+                <li v-for="(essay, indx) in essays" :key="indx">
+                  <ul class="note-list" infinite-scroll-url="/">
+                    <li v-for="(item, index) in essay" :key="index">
+                      <div class="content">
+                        <router-link
+                          :to="{path: '/essayDetail/'+item.id}"
+                          v-text="item.title"
+                          class="title"
+                        ></router-link>
+                        <p class="abstract" v-text="item.content"></p>
+                        <div class="meta">
+                          <a>
+                            <i class="fa fa-user" aria-hidden="true">{{item.username}}</i>
+                          </a>
+                          <a>
+                            <i class="fa fa-eye" aria-hidden="true">{{item.read_num}}</i>
+                          </a>
+                          <span>
+                            <i class="fa fa-comment" aria-hidden="true">{{item.updated_time}}</i>
+                          </span>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
                 </li>
               </ul>
-            </li>
-          </ul>
-          <el-button type="info" round class="load-more" @click="load()" v-if="noMore == false">阅读更多</el-button>
-          <p v-if="noMore">没有更多了</p>
-          <el-backtop target=".container" :visibility-height="50"></el-backtop>
+              <el-button
+                type="info"
+                round
+                class="load-more"
+                @click="load()"
+                v-if="noMore == false"
+              >阅读更多</el-button>
+              <p v-if="noMore">没有更多了</p>
+              <el-backtop target=".vessel" :right="500"></el-backtop>
+            </div>
+          </div>
+          <div class="col-xs-7 col-xs-offset-1 aside">待填充</div>
         </div>
       </div>
-      <div class="col-xs-7 col-xs-offset-1 aside">待填充</div>
     </div>
   </div>
 </template>
@@ -86,7 +96,7 @@ export default {
       api.essays("", "/10/" + this.page).then(response => {
         if (response.data && response.data.length > 0) {
           this.essays.push(response.data);
-          if(response.data.length < 10){
+          if (response.data.length < 10) {
             this.noMore = true;
           }
           this.page++;
@@ -112,16 +122,6 @@ export default {
 </script>
 
 <style scoped>
-.scrollContainer {
-  color: #ffffff;
-  font-size: 16px;
-  margin-left: 10px;
-  width: 79%;
-  height: 30px;
-  line-height: 30px;
-  overflow: hidden;
-}
-
 .el-carousel__item h3 {
   color: #475669;
   font-size: 14px;
@@ -141,8 +141,14 @@ export default {
 .imgCarousel {
   width: 100%;
 }
-
 .container {
+  height: 1272px;
+}
+.vessel {
+  overflow-x: auto;
+  height: 100%;
+}
+.index {
   width: 960px;
   margin-right: auto;
   margin-left: auto;
