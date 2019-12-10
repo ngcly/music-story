@@ -41,7 +41,7 @@ router.beforeEach((to,from,next) => {
     if(store.state.token){ //通过vuex state获取当前的token是否存在
       next();
     }else{
-      this.$message.error({
+      Message.error({
         customClass:'my-message',
         message:'该页面需登录，即将自动跳转登录页。',
         onClose: ()=>next({
