@@ -1,69 +1,66 @@
 <template>
   <div class="container">
-    <div class="pack">
-      <div class="row">
-        <div class="main">
-          <section class="bgw art">
-            <h1 class="title" v-text="essayDetail.title"></h1>
-            <div class="essay-us">
-              <div class="us-box">
-                <router-link class="avatar" to="/u/123">
-                  <el-avatar :size="48" :src="essayDetail.user.avatar"></el-avatar>
-                </router-link>
-                <div style="margin-left: 8px;">
-                  <div class="us-info">
-                    <span class="us-name">
-                      <router-link to="#">{{essayDetail.user.username}}</router-link>
-                    </span>
-                    <el-button class="btn btn-info" round size="mini">关注</el-button>
-                  </div>
-                  <div style="display: flex;">
-                    <span class="ed">发表时间：{{essayDetail.createdTime}}</span>
-                    <span class="ed">阅读：{{essayDetail.readNum}}</span>
-                  </div>
+    <div class="row">
+      <div class="main">
+        <section class="bgw art">
+          <h1 class="title" v-text="essayDetail.title"></h1>
+          <div class="essay-us">
+            <div class="us-box">
+              <router-link class="avatar" to="/u/123">
+                <el-avatar :size="48" :src="essayDetail.user.avatar"></el-avatar>
+              </router-link>
+              <div style="margin-left: 8px;">
+                <div class="us-info">
+                  <span class="us-name">
+                    <router-link to="#">{{essayDetail.user.username}}</router-link>
+                  </span>
+                  <el-button class="btn btn-info" round size="mini">关注</el-button>
+                </div>
+                <div style="display: flex;">
+                  <span class="ed">发表时间：{{essayDetail.createdTime}}</span>
+                  <span class="ed">阅读：{{essayDetail.readNum}}</span>
                 </div>
               </div>
             </div>
-            <article v-html="essayDetail.content"></article>
-          </section>
-          <div id="page-comment">
-            <section class="pg-comment">
-              <div style="display:flex;">
-                <el-avatar :size="40" :src="this.$parent.avatar"></el-avatar>
-                <div class="comment-form">
-                  <el-form>
-                    <el-form-item>
-                      <el-input type="textarea" placeholder="写下你的评论..."></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                      <div class="cm-s">
-                        <div>
-                          <span>Enter 发表</span>
-                        </div>
-                        <div>
-                          <el-button class="btn btn-info" round size="mini">发布</el-button>
-                          <el-button class="btn btn-info" round size="mini">取消</el-button>
-                        </div>
-                      </div>
-                    </el-form-item>
-                  </el-form>
-                </div>
-              </div>
-              <h3 class="cmt">
-                <div class="cmt-info">
-                  <span class="cmt-all">全部评论</span>
-                  <span class="cmt-num">1</span>
-                </div>
-              </h3>
-              <div></div>
-            </section>
           </div>
+          <article v-html="essayDetail.content"></article>
+        </section>
+        <div id="page-comment">
+          <section class="pg-comment">
+            <div style="display:flex;">
+              <el-avatar :size="40" :src="this.$parent.avatar"></el-avatar>
+              <div class="comment-form">
+                <el-form>
+                  <el-form-item>
+                    <el-input type="textarea" placeholder="写下你的评论..."></el-input>
+                  </el-form-item>
+                  <el-form-item>
+                    <div class="cm-s">
+                      <div>
+                        <span>Enter 发表</span>
+                      </div>
+                      <div>
+                        <el-button class="btn btn-info" round size="mini">发布</el-button>
+                        <el-button class="btn btn-info" round size="mini">取消</el-button>
+                      </div>
+                    </div>
+                  </el-form-item>
+                </el-form>
+              </div>
+            </div>
+            <h3 class="cmt">
+              <div class="cmt-info">
+                <span class="cmt-all">全部评论</span>
+                <span class="cmt-num">1</span>
+              </div>
+            </h3>
+            <div></div>
+          </section>
         </div>
-        <aside style="width: 260px;">
-          <section class="bgw extral">待填充</section>
-        </aside>
-        <el-backtop target=".pack" :right="500"></el-backtop>
       </div>
+      <aside style="width: 260px;">
+        <section class="bgw extral">待填充</section>
+      </aside>
     </div>
   </div>
 </template>
@@ -106,11 +103,6 @@ export default {
 <style scoped>
 .container {
   background-color: #f9f9f9;
-  height: 1272px;
-}
-.pack {
-  overflow-x: auto;
-  height: 100%;
 }
 .row {
   box-sizing: initial;

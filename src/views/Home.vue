@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <div class="vessel">
       <div class="index">
         <el-row>
           <el-col :span="24">
@@ -37,7 +36,7 @@
                           v-text="item.title"
                           class="title"
                         ></router-link>
-                        <p class="abstract" v-text="item.content"></p>
+                        <p class="abstract" v-html="item.content"></p>
                         <div class="meta">
                           <a>
                             <i class="fa fa-user" aria-hidden="true">{{item.username}}</i>
@@ -62,13 +61,11 @@
                 v-if="noMore == false"
               >阅读更多</el-button>
               <p v-if="noMore">没有更多了</p>
-              <el-backtop target=".vessel" :right="500"></el-backtop>
             </div>
           </div>
           <div class="col-xs-7 col-xs-offset-1 aside">待填充</div>
         </div>
       </div>
-    </div>
   </div>
 </template>
 
@@ -140,13 +137,6 @@ export default {
 
 .imgCarousel {
   width: 100%;
-}
-.container {
-  height: 1272px;
-}
-.vessel {
-  overflow-x: auto;
-  height: 100%;
 }
 .index {
   width: 960px;
