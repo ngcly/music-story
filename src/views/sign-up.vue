@@ -63,7 +63,6 @@
     </div>
 </template>
 <script>
-    import '../assets/css/sign.css';
     import md5 from 'js-md5';
     import api from "@/api/api";
     export default {
@@ -111,6 +110,6 @@
         }
     }
 </script>
-<style>
-
+<style scoped>
+ @import '../assets/css/sign.css';
 </style>

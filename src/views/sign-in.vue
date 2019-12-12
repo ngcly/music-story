@@ -66,7 +66,6 @@
     </div>
 </template>
 <script>
-    import '../assets/css/sign.css';
     import md5 from 'js-md5';
     export default {
         data(){
@@ -107,6 +106,6 @@
         }
     }
 </script>
-<style>
-
+<style scoped>
+ @import '../assets/css/sign.css';
 </style>
