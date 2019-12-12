@@ -38,14 +38,14 @@
                         ></router-link>
                         <p class="abstract" v-html="item.content"></p>
                         <div class="meta">
-                          <a>
-                            <i class="fa fa-user" aria-hidden="true">{{item.username}}</i>
-                          </a>
-                          <a>
-                            <i class="fa fa-eye" aria-hidden="true">{{item.read_num}}</i>
-                          </a>
+                          <router-link to="#">
+                            <i class="fa fa-user" aria-hidden="true"> {{item.username}}</i>
+                          </router-link>
                           <span>
-                            <i class="fa fa-comment" aria-hidden="true">{{item.updated_time}}</i>
+                            <i class="fa fa-eye" aria-hidden="true"> {{item.read_num}}</i>
+                          </span>
+                          <span>
+                            <i class="fa fa-comment" aria-hidden="true"> {{item.updated_time}}</i>
                           </span>
                         </div>
                       </div>
@@ -142,8 +142,7 @@ export default {
   width: 960px;
   margin-right: auto;
   margin-left: auto;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding: 30px 15px 0 15px
 }
 *,
 :after,
@@ -162,7 +161,8 @@ export default {
   width: 66.66667%;
 }
 .index .main .split-line {
-  margin: -5px 0 15px;
+  margin: 0 0 15px;
+  border-bottom: 1px solid #f0f0f0;
 }
 .note-list {
   margin: 0;
@@ -196,17 +196,9 @@ export default {
   font-weight: 400;
   line-height: 20px;
 }
-.note-list .meta a {
+.note-list .meta i {
   margin-right: 10px;
   color: #b4b4b4;
-}
-.iconfont {
-  font-family: iconfont !important;
-  font-size: inherit;
-  font-style: normal;
-  font-weight: 400 !important;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 .index .aside {
   padding: 30px 0 0;

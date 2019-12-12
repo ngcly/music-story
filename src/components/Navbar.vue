@@ -207,9 +207,7 @@ export default {
 </script>
 <!--scoped 只在当前组件中使用以下css样式-->
 <style scoped>
-ul,
-ol,
-dl {
+ul,ol,dl {
   margin: 0;
 }
 nav {

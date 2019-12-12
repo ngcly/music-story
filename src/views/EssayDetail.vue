@@ -51,10 +51,31 @@
             <h3 class="cmt">
               <div class="cmt-info">
                 <span class="cmt-all">全部评论</span>
-                <span class="cmt-num">1</span>
+                <span class="cmt-num">{{comments.content.length}}</span>
               </div>
             </h3>
-            <div></div>
+            <div class="comt">
+              <div style="display: flex;" v-for="(item, index) in comments.content" :key="index">
+                <router-link class="avatar" to="/#">
+                  <el-avatar :size="40" :src="item.avatar"></el-avatar>
+                </router-link>
+                <div class="comt-content">
+                  <div class="comt-uname">
+                    <router-link to="#">{{item.username}}</router-link>
+                  </div>
+                  <div class="comt-flr">
+                    <span>{{index+1}} 楼</span>
+                    <span v-text="item.createdTime"></span>
+                  </div>
+                  <div class="comt-info">{{item.content}}</div>
+                  <div class="comt-other">
+                    <span style="cursor: pointer;color: #b0b0b0;">
+                      <i class="fa fa-comment" aria-hidden="true"> 回复</i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </section>
         </div>
       </div>
@@ -86,7 +107,9 @@ export default {
           avatar: ""
         }
       },
-      comments: []
+      comments: {
+        content: []
+      }
     };
   },
   mounted() {
@@ -212,6 +235,46 @@ export default {
   font-size: 14px;
   color: #969696;
   align-items: center;
+}
+.comt {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+.comt-content {
+  flex-grow: 1;
+  margin-left: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eee;
+}
+.comt-uname {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 500;
+}
+.comt-flr {
+  margin-top: 2px;
+  font-size: 12px;
+  color: #969696;
+}
+.comt-info {
+  margin-top: 10px;
+  font-size: 16px;
+  word-break: break-word;
+}
+.comt-other {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  font-size: 15px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .extral {
   padding: 16px;
