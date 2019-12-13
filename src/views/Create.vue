@@ -1,7 +1,9 @@
 <template>
   <div class="create">
-    <router-link class="active" to="/">回到首页</router-link>
-    <el-form :model="form" label-width="80px">
+    <div class="back">
+      <router-link class="back-home" to="/">回到首页</router-link>
+    </div>
+    <el-form :inline="true" :model="form" class="form-inline">
         <el-form-item label="分类列表">
             <el-select v-model="form.classifyId" placeholder="请选择分类">
               <el-option v-for="(item,index) in classify" :key="index" :label="item.name" :value="item.id"></el-option>
@@ -10,19 +12,17 @@
         <el-form-item label="标题">
           <el-input v-model="form.title"></el-input>
         </el-form-item>
-        <el-form-item>
-          <div>
-            <mavon-editor 
-              v-model="content" 
-              ref="md" 
-              @change="change" 
-              @imgAdd="imgAdd"
-              @save="save"
-              style="min-height: 600px"
-            />
-    </div>
-        </el-form-item>
     </el-form>
+    <div>
+      <mavon-editor 
+        v-model="content" 
+        ref="md" 
+        @change="change" 
+        @imgAdd="imgAdd"
+        @save="save"
+        style="min-height: 600px"
+        />
+    </div>
   </div>
 </template>
 
@@ -65,7 +65,6 @@ export default {
       api.create({title:this.form.title,classifyId:this.form.classifyId,synopsis:value.substring(0,200),content:render}).then(() => {
         this.$message.success({message:"保存成功"});
       })
-      window.console.log(value,render)
     }
   },
   mounted() {
@@ -75,3 +74,21 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.back {
+    width: 10%;
+    padding: 30px 18px 5px;
+    text-align: center
+}
+.back-home {
+    display: block;
+    font-size: 15px;
+    padding: 9px 0;
+    border: 1px solid rgba(36,114,89,.8);
+    border-radius: 20px;
+}
+.form-inline {
+  margin: 15px;
+}
+</style>>

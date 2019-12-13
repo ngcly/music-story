@@ -15,7 +15,6 @@ html,body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
-  padding-top: 56px;
   background: #fff;
 }
 </style>

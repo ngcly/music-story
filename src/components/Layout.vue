@@ -21,5 +21,6 @@ export default {
 #body {
   overflow-x: auto;
   height: 100%;
+  padding-top: 56px;
 }
 </style>
