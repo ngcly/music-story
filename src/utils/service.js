@@ -2,6 +2,7 @@ import axios from 'axios'
 import store from '../store'
 import router from '../router'
 import Cookies from 'js-cookie'
+import { Message } from 'element-ui';
 
 let api_url = process.env.VUE_APP_BASE_API;
 const service = axios.create({
@@ -19,7 +20,7 @@ service.interceptors.request.use(
         return config;
     },
     err => {
-        this.$message.error({
+        Message.error({
             center: true,
             message: '服务器请求无响应！'
         })
@@ -35,7 +36,7 @@ service.interceptors.request.use(
             case 401:
             // 返回 401 清除token信息并跳转到登录页面
             store.commit('SET_TOKEN',null);
-            this.$message.error({
+            Message.error({
                 message:res.msg,
                 onClose: ()=> router.replace({
                     path: 'signin',
@@ -47,21 +48,19 @@ service.interceptors.request.use(
                 if(store.state.token){
                     return doRequest(response);
                 }else{
-                    this.$message.error({
+                    Message.error({
                         message:res.msg
                     })
                 }
             break;
             default:
-                this.$message.error({
-                message:res.msg
-            })
+                Message.error({message:res.msg})
             break
         }
         return Promise.reject()
     },
     error => {
-        this.$message.error({
+        Message.error({
             message: '服务器异常！',
             center: true
         })

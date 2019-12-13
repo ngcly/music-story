@@ -38,6 +38,11 @@ const commonApi = [
         method: "get"
     },
     {
+        name: "classify",
+        url: "/classify",
+        method: "get"
+    },
+    {
         name: "upload",
         url: "/user/upload",
         method: "post",

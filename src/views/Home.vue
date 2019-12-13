@@ -36,7 +36,7 @@
                           v-text="item.title"
                           class="title"
                         ></router-link>
-                        <p class="abstract" v-html="item.content"></p>
+                        <p class="abstract" v-html="item.synopsis"></p>
                         <div class="meta">
                           <router-link to="#">
                             <i class="fa fa-user" aria-hidden="true"> {{item.username}}</i>

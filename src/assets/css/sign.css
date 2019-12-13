@@ -161,7 +161,7 @@
     color:white !important;
     opacity:0.8;
 }
-.sign .btn-primary, .btn-info{
+.sign .btn-primary,.sign .btn-info{
     width: 300px;
 }
 @media (max-width:768px) {
