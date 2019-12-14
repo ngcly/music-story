@@ -119,6 +119,9 @@ export default {
     api.comments("", "/" + this.id + "/1").then(response => {
       this.comments = response.data;
     });
+  },
+  beforeDestroy() {
+    api.readEssay("","/"+this.id);
   }
 };
 </script>>

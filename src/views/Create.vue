@@ -62,8 +62,18 @@ export default {
       })
     },
     save(value,render){
-      api.create({title:this.form.title,classifyId:this.form.classifyId,synopsis:value.substring(0,200),content:render}).then(() => {
-        this.$message.success({message:"保存成功"});
+      let dsc;
+      if(value.length>200){
+        dsc = value.substring(0,200)+"...";
+      }else{
+        dsc = value;
+      }
+      api.create({title:this.form.title,classifyId:this.form.classifyId,synopsis:dsc,content:render}).then(() => {
+        this.$message({
+          type: 'success',
+          message: '保存成功',
+          onClose: this.$router.push('/')
+        });
       })
     }
   },

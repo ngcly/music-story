@@ -18,6 +18,11 @@ const commonApi = [
         method: "get"
     },
     {
+        name: "readEssay",
+        url: "/essay",
+        method: "put"
+    },
+    {
         name: "create",
         url: "/user/essay",
         method: "post"
