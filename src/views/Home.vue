@@ -59,6 +59,7 @@
                 class="load-more"
                 @click="load()"
                 v-if="noMore == false"
+                :loading=loading
               >阅读更多</el-button>
               <p v-if="noMore">没有更多了</p>
             </div>
@@ -84,7 +85,8 @@ export default {
       notice: [],
       essays: [],
       page: 1,
-      noMore: false
+      noMore: false,
+      loading: false
     };
   },
   methods: {
@@ -108,12 +110,12 @@ export default {
     api.carousel().then(response => {
       this.carousel = response.data;
     }),
-      api.notice().then(response => {
-        response.data.forEach(element => {
-          this.notice.push(element.content);
-        });
-      }),
-      this.load();
+    api.notice().then(response => {
+      response.data.forEach(element => {
+        this.notice.push(element.content);
+      });
+    }),
+    this.load();
   }
 };
 </script>

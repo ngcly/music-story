@@ -83,12 +83,20 @@
         <section class="bgw extral">待填充</section>
       </aside>
     </div>
+    <aplayer v-if="essayDetail.musicList.length>0"
+    :audio="essayDetail.musicList" 
+    :lrcType="3" 
+    :autoplay="true"
+    fixed />
   </div>
 </template>
 
 <script>
+import Vue from 'vue';
 import api from "@/api/api";
+import APlayer from '@moefe/vue-aplayer';
 
+Vue.use(APlayer);
 export default {
   name: "essayDetail",
   props: {
@@ -105,7 +113,8 @@ export default {
         user: {
           username: "",
           avatar: ""
-        }
+        },
+        musicList: []
       },
       comments: {
         content: []
