@@ -28,6 +28,11 @@ const commonApi = [
         method: "post"
     },
     {
+        name: "essaySearch",
+        url: "/search",
+        method: "get"
+    },
+    {
         name: "myessay",
         url: "/user/essay",
         method: "get"

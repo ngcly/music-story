@@ -16,3 +16,8 @@ export default {
 
 }
 </script>
+<style scoped>
+.index {
+  padding-top: 56px;
+}
+</style>>

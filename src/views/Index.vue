@@ -1,5 +1,5 @@
 <template>
-  <div class="index my-container">
+  <div class="index">
      <vue-particles
         color="#3385FF"
         linesColor="#3385FF"
@@ -92,15 +92,19 @@ export default {
     }     
   }
   /* 360-0 向左旋转 0-360 向右旋转 */
-
+.index {
+  height: 100%;
+  background-image: url('../assets/img/bg-min.jpg')
+}
 .main{
+  padding-top: 10%;
   padding-left: 20%;
   text-align: center;
   font-weight: bold;
   font-size: 30px; 
   display: flex;
   flex-direction: row;
-  letter-spacing: 4px
+  letter-spacing: 4px;
 }
 #particles-js{
   position: absolute;
@@ -108,7 +112,6 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('../assets/img/bg-min.jpg')
 }
 .typer span {
   animation: flip-in 1s 0s ease-in-out both;

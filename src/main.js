@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import { Message,Row,Col,Form,FormItem,Upload,Button,Input,Carousel,CarouselItem,Loading,Avatar,Backtop,Icon,Select,Option } from 'element-ui';
+import { Message,Row,Col,Form,FormItem,Upload,Button,Input,Carousel,CarouselItem,Loading,Avatar,Backtop,Icon,Select,Option,Dialog } from 'element-ui';
 
 /*引入公共样式*/
 import 'animate.css'
@@ -33,6 +33,7 @@ Vue.component(Backtop.name, Backtop);
 Vue.component(Icon.name, Icon);
 Vue.component(Select.name, Select);
 Vue.component(Option.name, Option);
+Vue.component(Dialog.name, Dialog);
 Vue.use(Loading.directive);
 
 Vue.prototype.$loading = Loading.service;
