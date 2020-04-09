@@ -129,19 +129,20 @@
               </div>
             </li>
             <li class="search">
-              <form method="post">
+              <el-form @submit.native.prevent>
                 <input 
                   ref="input" 
                   class="input" 
                   placeholder="搜索" 
-                  type="text" 
+                  type="text"
+                  v-model="sf" 
                   @focus="bgShow=true" 
                   @blur="bgShow=false">
-                <router-link 
+                <a native-type="submit"
                   :class="{active:bgShow}" 
-                  class="search-btn" 
-                  to="/search"><i class="fa fa-search"/></router-link>
-              </form>
+                  class="search-btn" @click="searchFor"><i class="fa fa-search"/>
+                </a>
+              </el-form>
             </li>
           </ul>
         </div>
@@ -157,6 +158,7 @@ export default {
   name: 'Navbar',
   data() {
     return {
+      sf: '',
       personShow: false,
       notifyShow: false,
       bgShow: false,
@@ -196,6 +198,13 @@ export default {
       this.$store.dispatch('LogOut','/'+this.$store.state.token.access_token).then(()=>{
        location.reload() // 为了重新实例化vue-router对象 避免bug
       })
+    },
+    searchFor(){
+      if(this.sf){
+          this.$router.push({path:'/search/'+this.sf})
+      }else{
+        return false;
+      }
     }
   },
   beforeDestroy() {
@@ -479,5 +488,8 @@ nav .nav-list .search form a.active {
   vertical-align: middle;
   border: 1px solid transparent;
   padding: 0.375rem 0.75rem;
+}
+a:hover{
+  cursor:pointer
 }
 </style>

@@ -19,6 +19,10 @@ export default new Router({
         name: 'essayDetail',
         component: ()=> import('./views/EssayDetail.vue'),
         props: true
+      },{
+        path: '/search/:sf',
+        name: 'search',
+        component: ()=> import('./views/SearchResult.vue')
       }]
     },
     {
