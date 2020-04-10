@@ -60,7 +60,7 @@
                 </router-link>
               </li>
               <li>
-                <a href="javascript:;" @click="logout">
+                <a @click="logout">
                   <i class="fa fa-sign-out"/>
                   退出
                 </a>
@@ -129,7 +129,7 @@
               </div>
             </li>
             <li class="search">
-              <el-form @submit.native.prevent>
+              <el-form @submit.native.prevent="searchFor">
                 <input 
                   ref="input" 
                   class="input" 
@@ -138,9 +138,8 @@
                   v-model="sf" 
                   @focus="bgShow=true" 
                   @blur="bgShow=false">
-                <a native-type="submit"
-                  :class="{active:bgShow}" 
-                  class="search-btn" @click="searchFor"><i class="fa fa-search"/>
+                <a :class="{active:bgShow}" class="search-btn" @click="searchFor">
+                  <i class="fa fa-search"/>
                 </a>
               </el-form>
             </li>
@@ -148,14 +147,19 @@
         </div>
       </div>
     </nav>
+    <SearchResult ref="shf"></SearchResult>
   </div>
 </template>
 <script>
 import { mapState } from 'vuex';
 import {initWebSocket} from '../utils/websocket';
+import SearchResult from '../views/SearchResult.vue'
 
 export default {
   name: 'Navbar',
+  components: {
+    SearchResult
+  },
   data() {
     return {
       sf: '',
@@ -201,7 +205,11 @@ export default {
     },
     searchFor(){
       if(this.sf){
-          this.$router.push({path:'/search/'+this.sf})
+          if(this.$route.path!='/search'){
+            this.$router.push({name:'search',params:{keyword:this.sf}})
+          }else{
+            this.$refs.shf.load(this.sf);
+          }
       }else{
         return false;
       }

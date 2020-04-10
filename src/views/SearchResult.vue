@@ -1,64 +1,52 @@
 <template>
-    <div class="container">
-            <div class="list-container">
-              <ul class="list">
-                <li v-for="(essay, indx) in essays" :key="indx">
-                  <ul class="note-list" infinite-scroll-url="/">
-                    <li v-for="(item, index) in essay" :key="index">
-                      <div class="content">
-                        <router-link
-                          :to="{path: '/essayDetail/'+item.id}"
-                          v-text="item.title"
-                          class="title"
-                        ></router-link>
-                        <p class="abstract" v-html="item.content"></p>
-                        <div class="meta">
-                          <router-link to="#">
-                            <i class="fa fa-user" aria-hidden="true"> {{item.author}}</i>
-                          </router-link>
-                          <!-- <span>
-                            <i class="fa fa-eye" aria-hidden="true"> {{item.read_num}}</i>
-                          </span>
-                          <span>
-                            <i class="fa fa-comment" aria-hidden="true"> {{item.updated_time}}</i>
-                          </span> -->
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
+  <div class="container">
+    <div class="list-container">
+      <ul class="list">
+        <li v-for="(essay, indx) in essays" :key="indx">
+          <div class="content">
+            <router-link :to="{path: '/essayDetail/'+essay.id}" v-text="essay.title" class="title"></router-link>
+            <p class="abstract" v-html="essay.content"></p>
+            <div class="meta">
+              <router-link to="#">
+                <i class="fa fa-user" aria-hidden="true">{{essay.author}}</i>
+              </router-link>
+              <!-- <span>
+                       <i class="fa fa-eye" aria-hidden="true"> {{item.read_num}}</i>
+                    </span>
+                    <span>
+                        <i class="fa fa-comment" aria-hidden="true"> {{item.updated_time}}</i>
+              </span>-->
             </div>
+          </div>
+        </li>
+      </ul>
     </div>
+  </div>
 </template>
 
 <script>
 import api from "@/api/api";
 export default {
-    data() {
-        return {
-            page: 1,
-            essays: []
-        }
-    },
-    methods: {
-      load() {
-        this.loading = true;
-        api.essaySearch("", "/10/" + this.page +"/"+ this.$route.params.sf).then(response => {
-          if (response.data.content && response.data.content.length > 0) {
-            this.essays.push(response.data.content);
-            this.page++;
-            this.loading = false;
-          }
-        });
-      }
-    },
-    mounted() {
-        this.load();
+  data() {
+    return {
+      page: 1,
+      essays: []
+    };
+  },
+  methods: {
+    load(keyWord) {
+      this.loading = true;
+      api.essaySearch("", "/10/" + this.page + "/" + keyWord).then(response => {
+        this.essays = response.data.content;
+        this.loading = false;
+      });
     }
-}
+  },
+  mounted() {
+    this.load(this.$route.params.keyword);
+  }
+};
 </script>
 
 <style scoped>
-
 </style>

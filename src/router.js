@@ -20,7 +20,7 @@ export default new Router({
         component: ()=> import('./views/EssayDetail.vue'),
         props: true
       },{
-        path: '/search/:sf',
+        path: '/search',
         name: 'search',
         component: ()=> import('./views/SearchResult.vue')
       }]
