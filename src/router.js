@@ -20,9 +20,10 @@ export default new Router({
         component: ()=> import('./views/EssayDetail.vue'),
         props: true
       },{
-        path: '/search',
+        path: '/search/:sf',
         name: 'search',
-        component: ()=> import('./views/SearchResult.vue')
+        component: ()=> import('./views/SearchResult.vue'),
+        props: true
       }]
     },
     {

@@ -147,19 +147,14 @@
         </div>
       </div>
     </nav>
-    <SearchResult ref="shf"></SearchResult>
   </div>
 </template>
 <script>
 import { mapState } from 'vuex';
 import {initWebSocket} from '../utils/websocket';
-import SearchResult from '../views/SearchResult.vue'
 
 export default {
   name: 'Navbar',
-  components: {
-    SearchResult
-  },
   data() {
     return {
       sf: '',
@@ -204,12 +199,9 @@ export default {
       })
     },
     searchFor(){
-      if(this.sf){
-          if(this.$route.path!='/search'){
-            this.$router.push({name:'search',params:{keyword:this.sf}})
-          }else{
-            this.$refs.shf.load(this.sf);
-          }
+      //重复路由会报错，所以做个判断
+      if(this.sf&&this.$route.path!='/search/'+this.sf){
+        this.$router.push({path:'/search/'+this.sf})
       }else{
         return false;
       }
