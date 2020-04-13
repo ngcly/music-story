@@ -1,26 +1,53 @@
 <template>
   <div class="container">
-    <div class="list-container">
-      <span v-show='essays.length <= 0'>抱歉，暂未搜到相关内容！</span>
-      <ul class="list">
-        <li v-for="(essay, indx) in essays" :key="indx">
-          <div class="content">
-            <router-link :to="{path: '/essayDetail/'+essay.id}" v-html="essay.title" class="title"></router-link>
-            <p class="abstract" v-html="essay.content"></p>
-            <div class="meta">
-              <router-link to="#">
-                <i class="fa fa-user" aria-hidden="true">{{essay.author}}</i>
-              </router-link>
-              <!-- <span>
-                       <i class="fa fa-eye" aria-hidden="true"> {{item.read_num}}</i>
-                    </span>
-                    <span>
-                        <i class="fa fa-comment" aria-hidden="true"> {{item.updated_time}}</i>
-              </span>-->
+    <div class="row">
+      <div class="search-content">
+        <span v-show="essays.length <= 0">抱歉，暂未搜到相关内容！</span>
+        <div class="sort-type">
+          <a href="#">时间排序</a>
+        </div>
+        <div class="result">{{total}} 个结果</div>
+        <ul class="list">
+          <li v-for="(essay, indx) in essays" :key="indx">
+            <div class="content">
+              <div class="author">
+                <router-link class="avatar" to="#">
+                  <el-avatar :size="24" :src="avatar"></el-avatar>
+                </router-link>
+                <div class="info">
+                  <router-link to="#">{{essay.author}}</router-link>
+                  <span>1年前</span>
+                </div>
+              </div>
+              <router-link
+                :to="{path: '/essayDetail/'+essay.id}"
+                v-html="essay.title"
+                class="title"
+              ></router-link>
+              <p class="abstract" v-html="essay.content"></p>
+              <div class="meta">
+                <span>
+                  <i class="fa fa-eye" aria-hidden="true">1</i>
+                </span>
+                <span>
+                  <i class="fa fa-comment" aria-hidden="true">1</i>
+                </span>
+              </div>
             </div>
-          </div>
-        </li>
-      </ul>
+          </li>
+        </ul>
+        <el-pagination
+          hide-on-single-page
+          background
+          @current-change="load"
+          :current-page.sync="page"
+          :page-size="10"
+          :total="total"
+          prev-text="上一页"
+          next-text="下一页"
+          layout="prev, pager, next"
+        ></el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -33,36 +60,58 @@ export default {
   },
   data() {
     return {
+      avatar: require("../assets/img/avatar.png"),
       page: 1,
+      total: 0,
+      keyWord: "",
       essays: []
     };
   },
   methods: {
-    load(keyWord) {
+    load() {
       this.loading = true;
-      api.essaySearch("", "/10/" + this.page + "/" + keyWord).then(response => {
-        this.essays = response.data.content;
-        this.loading = false;
-      });
+      api
+        .essaySearch("", "/10/" + this.page + "/" + this.keyWord)
+        .then(response => {
+          this.essays = response.data.content;
+          this.total = response.data.totalElements;
+          this.loading = false;
+        });
     }
   },
   mounted() {
-    this.load(this.sf);
+    this.keyWord = this.sf;
+    this.load();
   },
   watch: {
-    'sf'(newVal){
-      this.load(newVal);
+    sf(newVal) {
+      this.keyWord = newVal;
+      this.load();
     }
   }
 };
 </script>
 
 <style scoped>
-.list-container {
+.row {
   width: 960px;
   margin-right: auto;
   margin-left: auto;
-  padding: 30px 15px 0 15px
+  padding: 30px 15px 0 15px;
+}
+.search-content {
+  position: relative;
+}
+.sort-type {
+  padding-bottom: 20px;
+  font-size: 13px;
+}
+.result {
+  position: absolute;
+  top: 0;
+  right: 15px;
+  font-size: 13px;
+  color: #b4b4b4;
 }
 ul li {
   position: relative;
@@ -94,5 +143,23 @@ ul li {
 .meta i {
   margin-right: 10px;
   color: #b4b4b4;
+}
+.list .author {
+  margin-bottom: 14px;
+  font-size: 13px;
+}
+.list .author .avatar,
+.list .author .info {
+  display: inline-block;
+  vertical-align: middle;
+}
+.list .author .avatar {
+  margin: 0 5px 0 0;
+}
+.list .author .info span {
+  display: inline-block;
+  padding-left: 3px;
+  color: #969696;
+  vertical-align: middle;
 }
 </style>
