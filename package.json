@@ -21,7 +21,6 @@
     "js-cookie": "^2.2.1",
     "js-md5": "^0.7.3",
     "mavon-editor": "^2.8.0",
-    "npm": "^6.14.4",
     "sockjs-client": "^1.4.0",
     "stompjs": "^2.3.3",
     "vue": "^2.6.10",
