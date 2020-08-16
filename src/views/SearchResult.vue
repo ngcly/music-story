@@ -15,16 +15,16 @@
                   <el-avatar :size="24" :src="avatar"></el-avatar>
                 </router-link>
                 <div class="info">
-                  <router-link to="#">{{essay.author}}</router-link>
+                  <router-link to="#">{{essay.content.author}}</router-link>
                   <span>1年前</span>
                 </div>
               </div>
               <router-link
                 :to="{path: '/essayDetail/'+essay.id}"
-                v-html="essay.title"
+                v-html="essay.highlightFields.title?essay.highlightFields.title[0]:essay.content.title"
                 class="title"
               ></router-link>
-              <p class="abstract" v-html="essay.content"></p>
+              <p class="abstract" v-html="essay.highlightFields.content?essay.highlightFields.content[0]:essay.content.content"></p>
               <div class="meta">
                 <span>
                   <i class="fa fa-eye" aria-hidden="true">1</i>
@@ -73,8 +73,8 @@ export default {
       api
         .essaySearch("", "/10/" + this.page + "/" + this.keyWord)
         .then(response => {
-          this.essays = response.data.content;
-          this.total = response.data.totalElements;
+          this.essays = response.data;
+          this.total = response.data.length;
           this.loading = false;
         });
     }
