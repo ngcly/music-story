@@ -36,4 +36,3 @@ export { default as request } from '../utils/request';
 export { default as service } from '../utils/service';
 export { default as websocket } from '../utils/websocket';
 export { defineStore, acceptHMRUpdate, usePinia, storeToRefs } from '../node_modules/@pinia/nuxt/dist/runtime/composables';
-export { useNuxtDevTools } from '../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools';

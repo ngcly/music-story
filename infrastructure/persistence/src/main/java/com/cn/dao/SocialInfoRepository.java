@@ -18,7 +18,7 @@ public interface SocialInfoRepository extends JpaRepository<SocialInfo,Long>  {
      * @param openId 三方唯一openId
      * @return SocialUser
      */
-    SocialInfo findByOpenId(String openId);
+    SocialInfo findBySourceAndOpenId(String source, String openId);
 
     /**
      * 删除记录

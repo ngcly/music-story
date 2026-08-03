@@ -17,7 +17,9 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity
-@Table(name = "social_info")
+@Table(name = "social_info", uniqueConstraints = @UniqueConstraint(
+        name = "uk_social_info_source_open_id",
+        columnNames = {"source", "openId"}))
 public class SocialInfo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

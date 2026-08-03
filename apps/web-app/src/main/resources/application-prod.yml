@@ -19,3 +19,12 @@ spring:
     username: ${MYSQL_USERNAME:root}
     password: ${MYSQL_PASSWORD:}
     driverClassName: com.mysql.cj.jdbc.Driver
+
+jwt:
+  # 生产环境必须显式提供，缺失时应用拒绝启动
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION:3600}
+
+app:
+  cors:
+    allowed-origins: ${APP_ALLOWED_ORIGINS}

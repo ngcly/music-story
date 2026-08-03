@@ -80,7 +80,7 @@
                       <NuxtLink :to="'/essayDetail/' + item.id" class="block font-bold text-slate-800 hover:text-teal-600 text-lg mb-2 transition">
                         {{ item.title }}
                       </NuxtLink>
-                      <p class="text-sm text-slate-500 line-clamp-3 mb-4 leading-relaxed" v-html="item.synopsis"></p>
+                      <p class="text-sm text-slate-500 line-clamp-3 mb-4 leading-relaxed">{{ item.synopsis }}</p>
 
                       <!-- Meta 数据 -->
                       <div class="flex items-center gap-4 text-xs text-slate-400">
@@ -218,12 +218,12 @@ const recommendedAuthors = [
 
 onMounted(() => {
   api.carousel().then(response => {
-    carousel.value = response.data || []
+    carousel.value = response || []
   }).catch(err => console.error(err))
 
   api.notice().then(response => {
-    if (response.data) {
-      notice.value = response.data.map(item => item.content)
+    if (response) {
+      notice.value = response.map(item => item.content)
     }
   }).catch(err => console.error(err))
 
@@ -233,9 +233,9 @@ onMounted(() => {
 function loadInitial() {
   loading.value = true
   api.essays('', '/10/' + page.value).then(response => {
-    if (response.data && response.data.length > 0) {
-      essays.value.push(response.data)
-      if (response.data.length < 10) {
+    if (response && response.length > 0) {
+      essays.value.push(...response)
+      if (response.length < 10) {
         noMore.value = true
       }
     } else {
@@ -253,9 +253,9 @@ function loadMore() {
   loading.value = true
   page.value += 1
   api.essays('', '/10/' + page.value).then(response => {
-    if (response.data && response.data.length > 0) {
-      essays.value.push(response.data)
-      if (response.data.length < 10) {
+    if (response && response.length > 0) {
+      essays.value.push(...response)
+      if (response.length < 10) {
         noMore.value = true
       }
     } else {

@@ -146,7 +146,7 @@ function handleSignup() {
 
   api.signup(userInfo).then(response => {
     loading.value = false
-    successMsg.value = (response.data || '注册成功') + '！请前往您的邮箱进行激活。'
+    successMsg.value = (response || '注册成功') + '！请前往您的邮箱进行激活。'
     setTimeout(() => {
       router.push('/signin')
     }, 3000)

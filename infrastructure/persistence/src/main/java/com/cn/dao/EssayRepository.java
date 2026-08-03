@@ -4,6 +4,7 @@ import com.cn.entity.Classify;
 import com.cn.entity.Essay;
 import com.cn.entity.User;
 import com.cn.enums.FaveTypeEnum;
+import com.cn.enums.EssayStatusEnum;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -17,15 +18,19 @@ import org.springframework.util.StringUtils;
 
 import jakarta.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author ngcly
  */
 @Repository
 public interface EssayRepository extends JpaRepository<Essay,Long>, JpaSpecificationExecutor<Essay> {
+
+    Optional<Essay> findByIdAndStateIn(Long id, Collection<EssayStatusEnum> states);
 
     /**
      * 删除用户的文章

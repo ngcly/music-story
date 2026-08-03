@@ -22,7 +22,7 @@
     </div>
  
     <!-- Search Card Container -->
-    <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200/80 dark:border-slate-800/80 p-5">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-800/80 p-5">
         <form id="search-form" hx-get="/sys/role.html" hx-target="#roleTableContainer" hx-swap="outerHTML" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
             <div>
                 <label class="block text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1.5">角色名称</label>
@@ -72,7 +72,7 @@
          hx-include="#search-form" 
          hx-target="this" 
          hx-swap="outerHTML"
-         class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200/80 dark:border-slate-800/80 overflow-hidden">
+         class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-800/80 overflow-hidden">
         
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-slate-100 dark:divide-slate-800/80">
@@ -83,11 +83,11 @@
                         <th class="px-6 py-4 text-left text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">描述</th>
                         <th class="px-6 py-4 text-left text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">角色类型</th>
                         <th class="px-6 py-4 text-left text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">状态</th>
-                        <th class="px-6 py-4 text-right text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">操作</th>
+                        <th class="px-6 py-4 text-right text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider sticky right-0 bg-slate-50/90 dark:bg-slate-950/90 backdrop-blur-xs z-10">操作</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 dark:divide-slate-800/80 bg-white dark:bg-slate-900">
-                    <tr th:each="role : ${rolePage.content}" class="hover:bg-slate-50/80 dark:hover:bg-slate-850/50 transition-colors">
+                    <tr th:each="role : ${rolePage.content}" class="hover:bg-slate-50/80 dark:hover:bg-slate-850/50 transition-colors group">
                         <td class="px-6 py-4 whitespace-nowrap text-xs font-bold text-slate-800 dark:text-slate-200" th:text="${role.roleName}"></td>
                         <td class="px-6 py-4 whitespace-nowrap text-xs text-slate-500 dark:text-slate-400 font-mono" th:text="${role.roleCode}"></td>
                         <td class="px-6 py-4 whitespace-nowrap text-xs text-slate-500 dark:text-slate-400" th:text="${role.description != null && !role.description.isEmpty() ? role.description : '-'}"></td>
@@ -117,7 +117,7 @@
                                 <div class="relative w-9 h-5 bg-slate-200 peer-focus:outline-none dark:bg-slate-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-slate-600 peer-checked:bg-emerald-500 rounded-full"></div>
                             </label>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-xs font-semibold">
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-xs font-semibold sticky right-0 bg-white dark:bg-slate-900 group-hover:bg-slate-50/80 dark:group-hover:bg-slate-850/50 transition-colors z-10">
                             <div class="flex items-center justify-end space-x-1.5">
                                 <button th:hx-get="@{/sys/role/grant.html(roleId=${role.id},type=1)}" 
                                         hx-target="#grantModalContent"
@@ -157,10 +157,15 @@
                         </td>
                     </tr>
                     <tr th:if="${#lists.isEmpty(rolePage.content)}">
-                        <td colspan="6" class="px-6 py-12 text-center text-slate-500 dark:text-slate-400">
-                            <div class="flex flex-col items-center justify-center space-y-2">
-                                <i class="w-8 h-8 text-slate-300 dark:text-slate-600" data-lucide="inbox"></i>
-                                <span class="text-xs">未找到相关的角色记录。</span>
+                        <td colspan="6" class="px-6 py-16 text-center">
+                            <div class="flex flex-col items-center justify-center space-y-3">
+                                <div class="h-14 w-14 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/50 flex items-center justify-center text-indigo-500 shadow-xs">
+                                    <i class="w-7 h-7" data-lucide="user-cog"></i>
+                                </div>
+                                <p class="text-sm font-bold text-slate-700 dark:text-slate-200">暂无系统角色记录</p>
+                                <p class="text-xs text-slate-400 dark:text-slate-500 max-w-sm leading-relaxed">
+                                    当前检索未检索到角色信息，您可以重置检索条件或点击新建角色。
+                                </p>
                             </div>
                         </td>
                     </tr>

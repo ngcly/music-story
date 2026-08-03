@@ -15,7 +15,9 @@ import jakarta.persistence.*;
 @Setter
 @Getter
 @Entity
-@Table(name = "user_faves")
+@Table(name = "user_faves", uniqueConstraints = @UniqueConstraint(
+        name = "uk_user_faves_user_essay_type",
+        columnNames = {"userId", "essayId", "faveType"}))
 public class UserFaves extends AbstractDateAudit {
 
     @Id

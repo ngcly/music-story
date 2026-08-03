@@ -18,6 +18,7 @@ interface _GlobalComponents {
   EditorTiptapEditor: typeof import("../../components/editor/TiptapEditor.vue")['default']
   MascotCompanionWidget: typeof import("../../components/mascot/CompanionWidget.vue")['default']
   MascotCat: typeof import("../../components/mascot/MascotCat.vue")['default']
+  MascotPortraitCompanion: typeof import("../../components/mascot/PortraitCompanion.vue")['default']
   UiButton: typeof import("../../components/ui/button/Button.vue")['default']
   UiDialog: typeof import("../../components/ui/dialog/Dialog.vue")['default']
   UiDialogClose: typeof import("../../components/ui/dialog/DialogClose.vue")['default']
@@ -70,6 +71,7 @@ interface _GlobalComponents {
   LazyEditorTiptapEditor: LazyComponent<typeof import("../../components/editor/TiptapEditor.vue")['default']>
   LazyMascotCompanionWidget: LazyComponent<typeof import("../../components/mascot/CompanionWidget.vue")['default']>
   LazyMascotCat: LazyComponent<typeof import("../../components/mascot/MascotCat.vue")['default']>
+  LazyMascotPortraitCompanion: LazyComponent<typeof import("../../components/mascot/PortraitCompanion.vue")['default']>
   LazyUiButton: LazyComponent<typeof import("../../components/ui/button/Button.vue")['default']>
   LazyUiDialog: LazyComponent<typeof import("../../components/ui/dialog/Dialog.vue")['default']>
   LazyUiDialogClose: LazyComponent<typeof import("../../components/ui/dialog/DialogClose.vue")['default']>

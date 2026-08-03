@@ -1,6 +1,7 @@
 package com.cn.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -14,6 +15,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
+    @Value("#{'${app.cors.allowed-origins:http://localhost:3000}'.split(',')}")
+    private String[] allowedOrigins;
 
     /**设置swagger 为默认主页*/
     @Override
@@ -28,7 +31,7 @@ public class CorsConfig implements WebMvcConfigurer {
         //添加映射路径
         registry.addMapping("/**")
                 //设置放行哪些原始域
-                .allowedOriginPatterns("*")
+                .allowedOrigins(allowedOrigins)
                 //是否发送Cookie
                 .allowCredentials(true)
                 //放行哪些请求方式

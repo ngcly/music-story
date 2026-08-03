@@ -133,7 +133,7 @@ onMounted(() => {
   if (essayId) {
     // 拉取文章详情
     api.essays('', '/' + essayId).then(response => {
-      Object.assign(essayDetail, response.data)
+      Object.assign(essayDetail, response)
       // 增加一次阅读量
       api.readEssay(essayId)
     }).catch(err => console.error(err))

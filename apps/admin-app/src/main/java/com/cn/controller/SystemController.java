@@ -145,9 +145,6 @@ public class SystemController {
      */
     @PutMapping("/manager")
     public ResponseEntity<String> updateManager(@AuthenticationPrincipal Manager curManager, @Valid Manager manager, HttpServletResponse response) {
-        if (Manager.ADMIN.equals(curManager.getUsername())) {
-            return ResponseEntity.badRequest().body("当前用户属于内置管理员，不支持信息修改");
-        }
         managerService.saveManager(curManager, manager);
         response.setHeader("HX-Trigger", "managerListChanged");
         return ResponseEntity.ok().build();
@@ -181,9 +178,6 @@ public class SystemController {
     @PutMapping("/manager/pwd")
     public ResponseEntity<String> updatePassword(@AuthenticationPrincipal Manager manager, @RequestParam String oldPassword,
                                        @RequestParam String password, HttpServletResponse response) {
-        if ("administrator".equals(manager.getUsername())) {
-            return ResponseEntity.badRequest().body("当前用户属于内置管理员,不支持密码修改");
-        }
         managerService.updatePassword(manager.getId(), oldPassword, password);
         response.setHeader("HX-Trigger", "pwdUpdated");
         return ResponseEntity.ok().build();

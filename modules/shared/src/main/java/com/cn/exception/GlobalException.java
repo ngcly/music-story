@@ -23,7 +23,7 @@ public class GlobalException extends RuntimeException {
     }
 
     public GlobalException(int code, String msg) {
-        this(code, HttpStatus.valueOf(code >= 100 && code < 600 ? code : 400), msg);
+        this(code, HttpStatus.resolve(code) == null ? HttpStatus.BAD_REQUEST : HttpStatus.valueOf(code), msg);
     }
 
     public GlobalException(int code, HttpStatusCode status, String msg) {
@@ -46,4 +46,3 @@ public class GlobalException extends RuntimeException {
         return message;
     }
 }
-

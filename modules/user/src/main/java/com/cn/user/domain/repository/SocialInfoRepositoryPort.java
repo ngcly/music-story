@@ -9,7 +9,7 @@ import java.util.Optional;
  * @author ngcly
  */
 public interface SocialInfoRepositoryPort {
-    Optional<SocialInfo> findByOpenId(String openId);
+    Optional<SocialInfo> findBySourceAndOpenId(String source, String openId);
     SocialInfo save(SocialInfo socialInfo);
     long deleteByOpenIdAndUserId(String openId, Long userId);
 }

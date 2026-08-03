@@ -7,6 +7,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -14,6 +17,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import jakarta.persistence.LockModeType;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +40,24 @@ public interface ManagerRepository extends JpaRepository<Manager,Long>,JpaSpecif
      */
     @EntityGraph(value = "Role.Graph", type = EntityGraph.EntityGraphType.FETCH)
     Optional<Manager> findManagerByUsername(String username);
+
+    /**
+     * 锁定并返回所有仍可登录的超级管理员，防止并发操作同时移除最后的授权根。
+     */
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("""
+            select distinct manager
+            from Manager manager
+            join manager.roleList role
+            where role.roleCode = :roleCode
+              and role.roleType = :roleType
+              and role.available = true
+              and manager.state <> :lockedState
+            """)
+    List<Manager> findActiveSuperAdministratorsForUpdate(
+            @Param("roleCode") String roleCode,
+            @Param("roleType") com.cn.enums.UserTypeEnum roleType,
+            @Param("lockedState") UserStatusEnum lockedState);
 
     /**
      * 判断用户名是否存在

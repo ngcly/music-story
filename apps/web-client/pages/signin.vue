@@ -124,6 +124,7 @@ function handleLogin() {
   errorMsg.value = ''
 
   const userInfo = {
+    loginType: 'username',
     username: loginForm.username,
     password: md5(loginForm.password)
   }
@@ -133,7 +134,7 @@ function handleLogin() {
     router.push(route.query.redirect || '/')
   }).catch((err) => {
     loading.value = false
-    errorMsg.value = err?.msg || '登录失败，请检查用户名或密码'
+    errorMsg.value = err?.message || '登录失败，请检查用户名或密码'
   })
 }
 </script>

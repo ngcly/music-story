@@ -58,7 +58,7 @@
             <span class="essay-tag">其{{ index === 0 ? '一' : '二' }}</span>
             <h2 class="essay-title">{{ essay.title }}</h2>
             <p class="essay-author">— {{ essay.username || '佚名' }}</p>
-            <p class="essay-synopsis" v-html="essay.synopsis"></p>
+            <p class="essay-synopsis">{{ essay.synopsis }}</p>
             <div class="essay-action">
               <NuxtLink :to="'/essayDetail/' + essay.id" class="read-btn">
                 阅全文 <ChevronRightIcon class="w-4 h-4" />
@@ -113,8 +113,8 @@ const loading = ref(true)
 // 获取精选文章（获取前2条）
 onMounted(() => {
   api.essays('', '/2/1').then(response => {
-    if (response.data && response.data.length > 0) {
-      featuredEssays.value = response.data
+    if (response && response.length > 0) {
+      featuredEssays.value = response
     }
     loading.value = false
   }).catch(() => {

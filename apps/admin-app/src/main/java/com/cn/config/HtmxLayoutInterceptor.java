@@ -72,13 +72,8 @@ public class HtmxLayoutInterceptor implements HandlerInterceptor {
                         modelAndView.addObject("manager", manager);
                     }
                     if (!modelAndView.getModel().containsKey("menuList")) {
-                        Collection<Role> roleList;
-                        if (Manager.ADMIN.equals(manager.getUsername())) {
-                            roleList = getManagerService().getAdministrator().getRoleList();
-                        } else {
-                            Manager dbManager = getManagerService().getManagerById(manager.getId());
-                            roleList = dbManager.getRoleList();
-                        }
+                        Manager dbManager = getManagerService().getManagerById(manager.getId());
+                        Collection<Role> roleList = dbManager.getRoleList();
                         List<MenuDTO> menuList = roleList.parallelStream()
                                 .map(Role::getPermissions)
                                 .flatMap(Collection::parallelStream)

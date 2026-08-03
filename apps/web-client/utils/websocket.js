@@ -4,14 +4,22 @@ import Stomp from 'stompjs'
 let stompClient = null
 
 const websocket = {
-  connection: function (store) {
+  connection: function (store, onConnect, onError) {
     if (process.client) {
-      let socket = new SockJS('http://localhost:8070/chat')
+      const apiBase = import.meta.env.VITE_BASE_API || window.location.origin
+      const socketUrl = new URL('/chat', apiBase).toString()
+      const socket = new SockJS(socketUrl)
       stompClient = Stomp.over(socket)
-      stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame)
-      })
+      const token = store.token
+      if (!token?.access_token) return null
+      stompClient.connect(
+        { Authorization: `${token.token_type || 'Bearer'} ${token.access_token}` },
+        () => onConnect?.(stompClient),
+        onError
+      )
+      return stompClient
     }
+    return null
   }
 }
 

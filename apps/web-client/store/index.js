@@ -37,17 +37,16 @@ export const useStore = defineStore('main', () => {
 
   function login(userInfo) {
     return api.login(userInfo).then(response => {
-      const data = response.data
-      Cookies.set('token', JSON.stringify(data), { expires: 7 })
-      setToken(data)
+      Cookies.set('token', JSON.stringify(response), { expires: 7 })
+      setToken(response)
+      setUser(response.user)
     })
   }
 
   function relogin(freshToken) {
     return api.relogin(freshToken).then(response => {
-      const data = response.data
-      Cookies.set('token', JSON.stringify(data), { expires: 7 })
-      setToken(data)
+      Cookies.set('token', JSON.stringify(response), { expires: 7 })
+      setToken(response)
     })
   }
 
@@ -60,13 +59,13 @@ export const useStore = defineStore('main', () => {
 
   function getUserInfo() {
     return api.userInfo().then(response => {
-      setUser(response.data)
+      setUser(response)
     })
   }
 
   function updateUser() {
     return api.updateUser().then(response => {
-      setUser(response.data)
+      setUser(response)
     })
   }
 

@@ -41,6 +41,8 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
@@ -67,6 +69,24 @@
         ::-webkit-scrollbar-thumb:hover {
             background: rgba(99, 102, 241, 0.5);
         }
+        /* HTMX Indicator & Skeleton Loading styles */
+        .htmx-indicator {
+            opacity: 0;
+            transition: opacity 200ms ease-in-out;
+        }
+        .htmx-request .htmx-indicator {
+            opacity: 1;
+        }
+        .htmx-request.htmx-indicator {
+            opacity: 1;
+        }
+        @keyframes skeleton-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        .animate-skeleton {
+            animation: skeleton-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
     </style>
     <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"/>
 </head>
@@ -75,8 +95,21 @@
         sidebarExpanded: true, 
         avatarDropdownOpen: false,
         openSecurityModal: false,
+        openDrawer: false,
         activeMenuId: null,
         expandedMenus: [],
+        breadcrumbs: [{ name: '控制台', url: '/home' }],
+        setBreadcrumb(parentName, childName) {
+            if (!parentName) {
+                this.breadcrumbs = [{ name: '控制台', url: '/home' }];
+            } else {
+                this.breadcrumbs = [
+                    { name: '控制台', url: '/home' },
+                    { name: parentName, url: null },
+                    { name: childName, url: null }
+                ];
+            }
+        },
         darkMode: localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
       }"
       @pwd-updated.window="window.dispatchEvent(new CustomEvent('toast', { detail: { message: '密码修改成功！', type: 'success' } })); openSecurityModal = false">
@@ -145,16 +178,16 @@
 <div class="flex h-screen overflow-hidden bg-slate-50 dark:bg-slate-950 w-full">
     
     <!-- Sidebar -->
-    <aside class="flex flex-col h-full bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-300 transition-all duration-300 border-r border-slate-200/80 dark:border-slate-800/80 shrink-0 z-30"
+    <aside class="flex flex-col h-full bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-300 transition-all duration-300 border-r border-slate-200/80 dark:border-slate-800/80 shrink-0 z-30 relative"
            :class="sidebarExpanded ? 'w-64' : 'w-20'">
         
         <!-- Sidebar Brand -->
         <div class="h-16 flex items-center justify-between px-5 border-b border-slate-200/80 dark:border-slate-800/80 bg-white dark:bg-slate-950">
-            <div class="flex items-center space-x-3">
-                <div class="h-9 w-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-violet-500 flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30 text-base">
+            <div class="flex items-center space-x-3 overflow-hidden">
+                <div class="h-9 w-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-violet-500 flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30 text-base shrink-0">
                     音
                 </div>
-                <span class="font-extrabold text-lg tracking-tight text-slate-900 dark:text-white" 
+                <span class="font-extrabold text-lg tracking-tight text-slate-900 dark:text-white whitespace-nowrap" 
                       x-show="sidebarExpanded" 
                       x-transition>音书管理系统</span>
             </div>
@@ -163,33 +196,46 @@
         <!-- Sidebar Navigation Menu -->
         <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1.5 scrollbar-thin">
             <!-- Home Dashboard link -->
-            <div class="space-y-1">
+            <div class="space-y-1 relative" x-data="{ showTooltip: false }">
                 <a hx-get="/home" hx-target="#main-content" hx-push-url="true"
-                   @click="activeMenuId = 'home'"
+                   @click="activeMenuId = 'home'; setBreadcrumb(null, '控制台')"
+                   @mouseenter="showTooltip = true"
+                   @mouseleave="showTooltip = false"
                    :class="activeMenuId === 'home' || activeMenuId === null 
                     ? 'bg-indigo-50 dark:bg-gradient-to-r dark:from-indigo-600/20 dark:to-violet-600/10 text-indigo-600 dark:text-indigo-400 font-semibold border-l-2 border-indigo-600 dark:border-indigo-500 shadow-xs' 
                     : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100/80 dark:hover:bg-slate-900/80 hover:text-slate-900 dark:hover:text-slate-100'"
                    class="relative w-full flex items-center px-3.5 py-2.5 rounded-xl text-xs transition-all duration-200 cursor-pointer group">
                     <div class="flex items-center space-x-3">
-                        <i class="w-4 h-4 transition-transform group-hover:scale-110" 
+                        <i class="w-4 h-4 shrink-0 transition-transform group-hover:scale-110" 
                            :class="activeMenuId === 'home' || activeMenuId === null ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-500 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-100'"
                            data-lucide="layout-dashboard"></i>
-                        <span class="tracking-wide" x-show="sidebarExpanded">控制台仪表盘</span>
+                        <span class="tracking-wide whitespace-nowrap" x-show="sidebarExpanded">控制台仪表盘</span>
                     </div>
                 </a>
+                <!-- Hover Tooltip when collapsed -->
+                <div x-show="!sidebarExpanded && showTooltip"
+                     x-transition:enter="transition ease-out duration-150"
+                     x-transition:enter-start="opacity-0 translate-x-1"
+                     x-transition:enter-end="opacity-100 translate-x-0"
+                     class="absolute left-full top-1 ml-3 px-3 py-1.5 bg-slate-900 text-white text-xs rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none">
+                    控制台仪表盘
+                </div>
             </div>
 
             <!-- Dynamic Menu Tree -->
-            <div th:each="menu1 : ${menuList}" x-data="{ open: false }" class="space-y-1">
-                <!-- Level 1 Category Group -->
-                <button @click="open = !open" 
+            <div th:each="menu1 : ${menuList}" x-data="{ open: false, popoverOpen: false }" 
+                 @mouseleave="popoverOpen = false"
+                 class="space-y-1 relative">
+                <!-- Level 1 Category Group Button -->
+                <button @click="sidebarExpanded ? (open = !open) : (popoverOpen = !popoverOpen)" 
+                        @mouseenter="if (!sidebarExpanded) popoverOpen = true"
                         class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100/80 dark:hover:bg-slate-900/80 hover:text-slate-900 dark:hover:text-slate-100 transition-all group">
                     <div class="flex items-center space-x-3">
-                        <i class="w-4 h-4 text-slate-500 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200 transition-transform group-hover:scale-110" 
+                        <i class="w-4 h-4 shrink-0 text-slate-500 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200 transition-transform group-hover:scale-110" 
                            th:data-lucide="${menu1.icon != null && !menu1.icon.isEmpty() ? menu1.icon : 'folder'}"></i>
-                        <span class="tracking-wide" x-show="sidebarExpanded" th:text="${menu1.name}"></span>
+                        <span class="tracking-wide whitespace-nowrap" x-show="sidebarExpanded" th:text="${menu1.name}"></span>
                     </div>
-                    <svg class="h-3.5 w-3.5 transform transition-transform duration-200 text-slate-400 dark:text-slate-500" 
+                    <svg class="h-3.5 w-3.5 transform transition-transform duration-200 text-slate-400 dark:text-slate-500 shrink-0" 
                          :class="open ? 'rotate-90 text-slate-700 dark:text-slate-300' : ''" 
                          x-show="sidebarExpanded"
                          viewBox="0 0 20 20" fill="currentColor">
@@ -197,12 +243,53 @@
                     </svg>
                 </button>
                 
-                <!-- Level 2 Menu Links -->
+                <!-- Floating Popover Submenu when Collapsed -->
+                <div x-show="!sidebarExpanded && popoverOpen"
+                     x-transition:enter="transition ease-out duration-150"
+                     x-transition:enter-start="opacity-0 translate-x-2 scale-95"
+                     x-transition:enter-end="opacity-100 translate-x-0 scale-100"
+                     x-transition:leave="transition ease-in duration-100"
+                     class="absolute left-full top-0 ml-3 w-48 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200/80 dark:border-slate-800 p-2 z-50 space-y-1">
+                    <div class="px-3 py-1.5 text-[11px] font-bold text-slate-400 dark:text-slate-500 border-b border-slate-100 dark:border-slate-800 uppercase tracking-wider flex items-center space-x-2">
+                        <i class="w-3.5 h-3.5 text-indigo-500" th:data-lucide="${menu1.icon != null && !menu1.icon.isEmpty() ? menu1.icon : 'folder'}"></i>
+                        <span th:text="${menu1.name}"></span>
+                    </div>
+                    <div th:each="menu2 : ${menu1.children}" class="space-y-0.5">
+                        <a th:hx-get="${menu2.url}" hx-target="#main-content" hx-push-url="true"
+                           th:data-menu-id="${menu2.id}"
+                           th:data-parent-name="${menu1.name}"
+                           th:data-menu-name="${menu2.name}"
+                           @click="activeMenuId = String($el.dataset.menuId); setBreadcrumb($el.dataset.parentName, $el.dataset.menuName); popoverOpen = false"
+                           :class="activeMenuId === String($el.dataset.menuId) 
+                            ? 'bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-semibold' 
+                            : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100'"
+                           class="flex items-center space-x-2 px-3 py-2 rounded-xl text-xs transition-colors cursor-pointer">
+                            <i class="w-3.5 h-3.5 shrink-0" th:data-lucide="${menu2.icon != null && !menu2.icon.isEmpty() ? menu2.icon : 'file-text'}"></i>
+                            <span th:text="${menu2.name}"></span>
+                        </a>
+                        <div class="pl-4 space-y-0.5" th:if="${not #lists.isEmpty(menu2.children)}">
+                            <a th:each="menu3 : ${menu2.children}"
+                               th:hx-get="${menu3.url}" hx-target="#main-content" hx-push-url="true"
+                               th:data-menu-id="${menu3.id}"
+                               th:data-parent-name="${menu1.name}"
+                               th:data-menu-name="${menu3.name}"
+                               @click="activeMenuId = String($el.dataset.menuId); setBreadcrumb($el.dataset.parentName, $el.dataset.menuName); popoverOpen = false"
+                               class="flex items-center space-x-1.5 px-2.5 py-1 rounded-lg text-[11px] text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors cursor-pointer">
+                                <i class="w-3 h-3 shrink-0" th:data-lucide="${menu3.icon != null && !menu3.icon.isEmpty() ? menu3.icon : 'dot'}"></i>
+                                <span th:text="${menu3.name}"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Level 2 Menu Links (Expanded Mode) -->
                 <div x-show="open && sidebarExpanded" x-collapse class="pl-4 space-y-1">
                     <div th:each="menu2 : ${menu1.children}">
                         <a th:hx-get="${menu2.url}" hx-target="#main-content" hx-push-url="true"
                            th:data-menu-id="${menu2.id}"
-                           @click="activeMenuId = String($el.dataset.menuId)"
+                           th:data-parent-name="${menu1.name}"
+                           th:data-menu-name="${menu2.name}"
+                           @click="activeMenuId = String($el.dataset.menuId); setBreadcrumb($el.dataset.parentName, $el.dataset.menuName)"
                            :class="activeMenuId === String($el.dataset.menuId) 
                             ? 'bg-indigo-50 dark:bg-gradient-to-r dark:from-indigo-600/20 dark:to-violet-600/10 text-indigo-600 dark:text-indigo-400 font-semibold border-l-2 border-indigo-600 dark:border-indigo-500 shadow-xs' 
                             : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100/80 dark:hover:bg-slate-900/80 hover:text-slate-900 dark:hover:text-slate-200'"
@@ -217,7 +304,9 @@
                             <a th:each="menu3 : ${menu2.children}"
                                th:hx-get="${menu3.url}" hx-target="#main-content" hx-push-url="true"
                                th:data-menu-id="${menu3.id}"
-                               @click="activeMenuId = String($el.dataset.menuId)"
+                               th:data-parent-name="${menu1.name}"
+                               th:data-menu-name="${menu3.name}"
+                               @click="activeMenuId = String($el.dataset.menuId); setBreadcrumb($el.dataset.parentName, $el.dataset.menuName)"
                                :class="activeMenuId === String($el.dataset.menuId) 
                                 ? 'text-indigo-600 dark:text-indigo-400 font-semibold' 
                                 : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'"
@@ -248,7 +337,7 @@
         
         <!-- Glassmorphic Top Navbar -->
         <header class="sticky top-0 z-20 h-16 backdrop-blur-md bg-white/80 dark:bg-slate-950/80 border-b border-slate-200/80 dark:border-slate-800/80 flex items-center justify-between px-6 shrink-0 transition-colors">
-            <!-- Left Header -->
+            <!-- Left Header with Dynamic Breadcrumbs -->
             <div class="flex items-center space-x-4">
                 <button @click="sidebarExpanded = !sidebarExpanded" 
                         class="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-850 text-slate-500 dark:text-slate-400 transition-colors hidden md:block">
@@ -256,7 +345,27 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
-                <div class="text-sm font-bold tracking-tight text-slate-800 dark:text-slate-100">音书工作台</div>
+                
+                <!-- Dynamic Breadcrumb Navigation -->
+                <nav class="flex items-center space-x-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+                    <template x-for="(item, index) in breadcrumbs" :key="index">
+                        <div class="flex items-center space-x-2">
+                            <svg x-show="index > 0" class="h-3.5 w-3.5 text-slate-300 dark:text-slate-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                            <a x-show="item.url" hx-get="/home" hx-target="#main-content" hx-push-url="true"
+                               @click="setBreadcrumb(null, '控制台'); activeMenuId = 'home'"
+                               class="hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer flex items-center space-x-1"
+                               :class="index === breadcrumbs.length - 1 ? 'font-bold text-slate-800 dark:text-slate-100' : ''">
+                                <i class="w-3.5 h-3.5 mr-1" data-lucide="home"></i>
+                                <span x-text="item.name"></span>
+                            </a>
+                            <span x-show="!item.url" 
+                                  :class="index === breadcrumbs.length - 1 ? 'font-bold text-slate-800 dark:text-slate-100' : ''"
+                                  x-text="item.name"></span>
+                        </div>
+                    </template>
+                </nav>
             </div>
  
             <!-- Right Header Controls -->
@@ -393,6 +502,44 @@
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reusable Global Slide-over Drawer Component -->
+<div x-show="openDrawer" 
+     @keydown.window.escape="openDrawer = false"
+     class="fixed inset-0 z-50 overflow-hidden" 
+     style="display: none;">
+    <!-- Backdrop Overlay -->
+    <div x-show="openDrawer"
+         x-transition:enter="ease-in-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="ease-in-out duration-300"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm transition-opacity" 
+         @click="openDrawer = false"></div>
+
+    <div class="fixed inset-y-0 right-0 pl-10 max-w-full flex">
+        <div x-show="openDrawer"
+             x-transition:enter="transform transition ease-in-out duration-300 sm:duration-500"
+             x-transition:enter-start="translate-x-full"
+             x-transition:enter-end="translate-x-0"
+             x-transition:leave="transform transition ease-in-out duration-300 sm:duration-500"
+             x-transition:leave-start="translate-x-0"
+             x-transition:leave-end="translate-x-full"
+             class="w-screen max-w-md bg-white dark:bg-slate-900 shadow-2xl border-l border-slate-200/80 dark:border-slate-800 flex flex-col">
+            <div id="drawerContent" class="h-full overflow-y-auto p-6 relative">
+                <!-- Dynamic Content injected via HTMX target "#drawerContent" -->
+                <div class="flex justify-center p-8">
+                    <svg class="animate-spin h-8 w-8 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
                 </div>
             </div>
         </div>

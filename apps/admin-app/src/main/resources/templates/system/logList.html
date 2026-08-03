@@ -22,7 +22,7 @@
     </div>
  
     <!-- Search Card Container -->
-    <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200/80 dark:border-slate-800/80 p-5">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-800/80 p-5">
         <form id="search-form" hx-get="/sys/logs.html" hx-target="#logTableContainer" hx-swap="outerHTML" class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
             <div>
                 <label class="block text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1.5">操作账号</label>
@@ -58,7 +58,7 @@
          hx-include="#search-form" 
          hx-target="this" 
          hx-swap="outerHTML"
-         class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200/80 dark:border-slate-800/80 overflow-hidden">
+         class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-800/80 overflow-hidden">
         
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-slate-100 dark:divide-slate-800/80">
@@ -95,10 +95,15 @@
                         <td class="px-6 py-4 whitespace-nowrap text-xs text-slate-500 dark:text-slate-400 font-mono" th:text="${#temporals.format(log.loginTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
                     </tr>
                     <tr th:if="${#lists.isEmpty(logPage.content)}">
-                        <td colspan="7" class="px-6 py-12 text-center text-slate-500 dark:text-slate-400">
-                            <div class="flex flex-col items-center justify-center space-y-2">
-                                <i class="w-8 h-8 text-slate-300 dark:text-slate-600" data-lucide="inbox"></i>
-                                <span class="text-xs">未找到相关的系统日志。</span>
+                        <td colspan="7" class="px-6 py-16 text-center">
+                            <div class="flex flex-col items-center justify-center space-y-3">
+                                <div class="h-14 w-14 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/50 flex items-center justify-center text-indigo-500 shadow-xs">
+                                    <i class="w-7 h-7" data-lucide="file-text"></i>
+                                </div>
+                                <p class="text-sm font-bold text-slate-700 dark:text-slate-200">暂无符合条件的日志记录</p>
+                                <p class="text-xs text-slate-400 dark:text-slate-500 max-w-sm leading-relaxed">
+                                    当前检索时间或参数范围内未记录到系统日志。
+                                </p>
                             </div>
                         </td>
                     </tr>

@@ -184,7 +184,7 @@ const hasMusicAttached = computed(() => {
 onMounted(() => {
   // 加载分类列表
   api.classify().then(response => {
-    classify.value = response.data || []
+    classify.value = response || []
   }).catch(err => console.error(err))
 })
 
@@ -193,8 +193,8 @@ function onUploadImg(file, insertImageCallback) {
   const payload = new FormData()
   payload.append('file', file)
   api.upload(payload, '/img').then(response => {
-    if (response.data) {
-      insertImageCallback(response.data)
+    if (response) {
+      insertImageCallback(response)
     }
   }).catch(err => console.error('Image upload failed:', err))
 }
@@ -228,7 +228,7 @@ function saveDraft() {
   }
 
   api.create(cleanData).then(response => {
-    formData.id = response.data
+    formData.id = response
     loading.value = false
     statusMsg.value = '草稿保存成功！'
     setTimeout(() => {
@@ -273,7 +273,7 @@ function publish() {
   } else {
     // 先保存草稿获取 id，再提审发布
     api.create(cleanData).then(response => {
-      cleanData.id = response.data
+      cleanData.id = response
       api.altessay(cleanData).then(() => {
         loading.value = false
         statusMsg.value = '文章发布成功，即将返回首页。'

@@ -139,8 +139,8 @@
       </button>
     </transition>
 
-    <!-- 极简文艺猫咪挂件 (看板娘) -->
-    <MascotCompanionWidget />
+    <!-- 轻量分层立绘看板娘 -->
+    <MascotPortraitCompanion />
   </div>
 </template>
 
@@ -200,19 +200,16 @@ onMounted(() => {
   // 客户端连接 Websocket
   if (process.client && isLogin.value && !stompClient) {
     try {
-      stompClient = websocket.connection(store)
-      if (stompClient) {
-        stompClient.connect({}, () => {
-          stompClient.subscribe('/topic/notify', (msg) => {
+      stompClient = websocket.connection(store, (client) => {
+          client.subscribe('/topic/notify', (msg) => {
             console.log('WS topic message:', msg)
           })
-          stompClient.subscribe('/user/' + userInfo.value.username + '/queue/notify', (msg) => {
+          client.subscribe('/user/queue/notify', (msg) => {
             console.log('WS user message:', msg)
           })
         }, (err) => {
           console.log('WS connection err:', err)
         })
-      }
     } catch (e) {
       console.error('WS initialization failed:', e)
     }
@@ -222,11 +219,9 @@ onMounted(() => {
 onBeforeUnmount(() => {
   if (process.client) {
     window.removeEventListener('scroll', handleScroll)
-  }
-  if (stompClient) {
-    try {
+    if (stompClient?.connected) {
       stompClient.disconnect()
-    } catch (e) {}
+    }
   }
 })
 

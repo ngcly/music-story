@@ -4,7 +4,6 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTUtil;
 import cn.hutool.jwt.RegisteredPayload;
-import com.cn.user.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,7 +17,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Instant;
-import java.util.Objects;
 
 /**
  * 请求校验
@@ -28,30 +26,33 @@ import java.util.Objects;
 @Slf4j
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
     private final JwtTokenUtil jwtTokenUtil;
+    private final UserDetailsServiceImpl userDetailsService;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil,
+                                   UserDetailsServiceImpl userDetailsService) {
         super(authenticationManager);
         this.jwtTokenUtil = jwtTokenUtil;
+        this.userDetailsService = userDetailsService;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String token = JwtTokenUtil.getToken(request);
         if (StringUtils.hasLength(token)) {
-            User user = null;
+            SecurityUser securityUser = null;
             Instant issuedAt = null;
             try {
                 JWT jwt = JWTUtil.parseToken(token);
                 if (jwtTokenUtil.verify(jwt)) {
-                    user = jwt.getPayload().getClaimsJson().toBean(User.class);
+                    String username = jwt.getPayloads().getStr(JWT.SUBJECT);
+                    securityUser = (SecurityUser) userDetailsService.loadUserByUsername(username);
                     issuedAt = DateUtil.toInstant(jwt.getPayloads().getDate(RegisteredPayload.ISSUED_AT));
                 }
             } catch (Exception e) {
                 log.info("token 无效:{}", e.getMessage());
             }
 
-            if (validUserAuthenticated(user, issuedAt)) {
-                SecurityUser securityUser = new SecurityUser(user);
+            if (validUserAuthenticated(securityUser, issuedAt)) {
                 UsernamePasswordAuthenticationToken authenticationToken =
                         UsernamePasswordAuthenticationToken.authenticated(securityUser, null, securityUser.getAuthorities());
                 log.info("authenticated user:{}", authenticationToken);
@@ -68,10 +69,15 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
      * @param issuedAt   jwt有效期
      * @return boolean
      */
-    public boolean validUserAuthenticated(User userDetail, Instant issuedAt) {
-        return Objects.nonNull(userDetail)
-                && Objects.isNull(SecurityContextHolder.getContext().getAuthentication())
-                && Objects.nonNull(issuedAt)
-                && (Objects.isNull(userDetail.getPwdAlt()) || issuedAt.isAfter(userDetail.getPwdAlt()));
+    public boolean validUserAuthenticated(SecurityUser userDetail, Instant issuedAt) {
+        if (userDetail == null
+                || SecurityContextHolder.getContext().getAuthentication() != null
+                || issuedAt == null
+                || !userDetail.isEnabled()
+                || !userDetail.isAccountNonLocked()) {
+            return false;
+        }
+        Instant passwordChangedAt = userDetail.getUser().getPwdAlt();
+        return passwordChangedAt == null || issuedAt.isAfter(passwordChangedAt);
     }
 }

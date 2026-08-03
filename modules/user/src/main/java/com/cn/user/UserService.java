@@ -2,6 +2,7 @@ package com.cn.user;
  
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.IdUtil;
 import com.cn.enums.*;
 import com.cn.exception.GlobalException;
 import com.cn.config.RabbitConfig;
@@ -126,11 +127,14 @@ public class UserService {
             throw new GlobalException("state不一致");
         }
         SocialEnum socialEnum = SocialEnum.valueOf(source.toUpperCase());
+        String normalizedSource = socialEnum.getSource();
         SocialInfo socialInfo = getSocialInfo(socialEnum, authCode);
-        socialInfo.setSource(source);
+        socialInfo.setSource(normalizedSource);
  
         //根据OpenId 从数据库中查找是否有该用户信息 若有则直接使用用户信息 进行token生成操作
-        SocialInfo thirdUser = socialInfoRepositoryPort.findByOpenId(socialInfo.getOpenId()).orElse(null);
+        SocialInfo thirdUser = socialInfoRepositoryPort
+                .findBySourceAndOpenId(normalizedSource, socialInfo.getOpenId())
+                .orElse(null);
         if (Objects.isNull(thirdUser)) {
             thirdUser = socialInfo;
             //若未登录过，则需要获取用户信息进行注册
@@ -146,7 +150,7 @@ public class UserService {
             thirdUser.setUser(user);
             socialInfoRepositoryPort.save(thirdUser);
         }
-        return socialInfo.getUser();
+        return thirdUser.getUser();
     }
  
     /**
@@ -162,8 +166,13 @@ public class UserService {
             throw new GlobalException("state不一致");
         }
         SocialEnum socialEnum = SocialEnum.valueOf(source.toUpperCase());
+        String normalizedSource = socialEnum.getSource();
         SocialInfo thirdUser = getSocialInfo(socialEnum, authCode);
-        thirdUser.setSource(source);
+        thirdUser.setSource(normalizedSource);
+        if (socialInfoRepositoryPort.findBySourceAndOpenId(normalizedSource, thirdUser.getOpenId()).isPresent()) {
+            throw new GlobalException(RestCode.UNION_DUMP.code, RestCode.UNION_DUMP.status,
+                    "该第三方账号已绑定其他用户");
+        }
         thirdUser.setUser(currentUser);
         socialInfoRepositoryPort.save(thirdUser);
     }
@@ -177,6 +186,7 @@ public class UserService {
      */
     public SocialInfo getSocialInfo(SocialEnum socialEnum, String authCode) {
         SocialInfo social = new SocialInfo();
+        social.setUuid(IdUtil.fastSimpleUUID());
         if (SocialEnum.QQ.equals(socialEnum)) {
             //通过Authorization Code获取Access Token
             String url = String.format("https://graph.qq.com/oauth2.0/token" +

@@ -18,10 +18,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Safelist;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author ngcly
@@ -29,6 +32,12 @@ import java.util.Map;
 @Service
 @AllArgsConstructor
 public class EssayService {
+    private static final Set<EssayStatusEnum> PUBLIC_STATES =
+            Set.of(EssayStatusEnum.NORMAL, EssayStatusEnum.RECOMMEND);
+    private static final Safelist ARTICLE_HTML = Safelist.relaxed()
+            .addTags("figure", "figcaption")
+            .addAttributes("img", "alt", "title")
+            .addProtocols("img", "src", "http", "https");
     private final EssayRepository essayRepository;
     private final ClassifyRepository classifyRepository;
     private final CommentRepository commentRepository;
@@ -64,7 +73,10 @@ public class EssayService {
      * @return Essay
      */
     public Essay getEssayDetail(Long id) {
-        return essayRepository.getReferenceById(id);
+        Essay essay = essayRepository.findByIdAndStateIn(id, PUBLIC_STATES)
+                .orElseThrow(() -> new GlobalException(RestCode.NOT_FOUND));
+        sanitizeArticle(essay);
+        return essay;
     }
 
     /**
@@ -87,6 +99,7 @@ public class EssayService {
         essay.setClassify(classify);
         essay.setReadNum(0);
         essay.setState(EssayStatusEnum.DRAFT);
+        sanitizeArticle(essay);
         return essayRepository.save(essay).getId();
     }
 
@@ -107,8 +120,8 @@ public class EssayService {
         }
         Classify classify = classifyRepository.getReferenceById(classifyId);
         savedEssay.setTitle(essay.getTitle());
-        savedEssay.setSynopsis(essay.getSynopsis());
-        savedEssay.setContent(essay.getContent());
+        savedEssay.setSynopsis(sanitizePlainText(essay.getSynopsis()));
+        savedEssay.setContent(sanitizeHtml(essay.getContent()));
         savedEssay.setMusicList(essay.getMusicList());
         savedEssay.setClassify(classify);
         savedEssay.setState(EssayStatusEnum.PENDING);
@@ -217,5 +230,18 @@ public class EssayService {
             book.setContent(essay.getContent());
             bookService.save(book);
         }
+    }
+
+    private void sanitizeArticle(Essay essay) {
+        essay.setSynopsis(sanitizePlainText(essay.getSynopsis()));
+        essay.setContent(sanitizeHtml(essay.getContent()));
+    }
+
+    private String sanitizePlainText(String value) {
+        return value == null ? null : Jsoup.clean(value, Safelist.none());
+    }
+
+    private String sanitizeHtml(String value) {
+        return value == null ? null : Jsoup.clean(value, ARTICLE_HTML);
     }
 }

@@ -39,17 +39,12 @@ public class IndexController {
     @RequestMapping("/")
     public String index(@AuthenticationPrincipal Manager manager, Model model) {
         boolean init = false;
-        Collection<Role> roleList;
-        if (Manager.ADMIN.equals(manager.getUsername())) {
-            roleList = managerService.getAdministrator().getRoleList();
-        } else {
-            Manager dbManager = managerService.getManagerById(manager.getId());
-            roleList = dbManager.getRoleList();
-            if (dbManager.getState() == UserStatusEnum.INITIALIZE) {
-                init = true;
-                dbManager.setState(UserStatusEnum.NORMAL);
-                managerService.updateManager(dbManager);
-            }
+        Manager dbManager = managerService.getManagerById(manager.getId());
+        Collection<Role> roleList = dbManager.getRoleList();
+        if (dbManager.getState() == UserStatusEnum.INITIALIZE) {
+            init = true;
+            dbManager.setState(UserStatusEnum.NORMAL);
+            managerService.updateManager(dbManager);
         }
         List<MenuDTO> menuList = roleList.parallelStream()
                 .map(Role::getPermissions)

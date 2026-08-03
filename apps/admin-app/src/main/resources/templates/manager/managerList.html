@@ -22,7 +22,7 @@
     </div>
  
     <!-- Search Card Container -->
-    <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200/80 dark:border-slate-800/80 p-5">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-800/80 p-5">
         <form id="search-form" hx-get="/sys/manager.html" hx-target="#managerTableContainer" hx-swap="outerHTML" class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
             <div>
                 <label class="block text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1.5">用户名 / 昵称</label>
@@ -76,7 +76,7 @@
          hx-include="#search-form" 
          hx-target="this" 
          hx-swap="outerHTML"
-         class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200/80 dark:border-slate-800/80 overflow-hidden">
+         class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-800/80 overflow-hidden">
         
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-slate-100 dark:divide-slate-800/80">
@@ -89,11 +89,11 @@
                         <th class="px-6 py-4 text-left text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">状态</th>
                         <th class="px-6 py-4 text-left text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">创建时间</th>
                         <th class="px-6 py-4 text-left text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">更新时间</th>
-                        <th class="px-6 py-4 text-right text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">操作</th>
+                        <th class="px-6 py-4 text-right text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider sticky right-0 bg-slate-50/90 dark:bg-slate-950/90 backdrop-blur-xs z-10">操作</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 dark:divide-slate-800/80 bg-white dark:bg-slate-900">
-                    <tr th:each="m : ${managerPage.content}" class="hover:bg-slate-50/80 dark:hover:bg-slate-850/50 transition-colors">
+                    <tr th:each="m : ${managerPage.content}" class="hover:bg-slate-50/80 dark:hover:bg-slate-850/50 transition-colors group">
                         <td class="px-6 py-4 whitespace-nowrap text-xs font-bold text-slate-800 dark:text-slate-200">
                             <div class="flex items-center space-x-3">
                                 <img th:src="${m.avatar != null && !m.avatar.isEmpty() ? m.avatar : '/images/avatar.jpg'}" class="h-8 w-8 rounded-full object-cover border border-slate-200 dark:border-slate-700 shadow-sm">
@@ -122,7 +122,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-xs text-slate-500 dark:text-slate-400" th:text="${#temporals.format(m.createdAt,'yyyy-MM-dd HH:mm:ss')}"></td>
                         <td class="px-6 py-4 whitespace-nowrap text-xs text-slate-500 dark:text-slate-400" th:text="${#temporals.format(m.updatedAt,'yyyy-MM-dd HH:mm:ss')}"></td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-xs font-semibold">
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-xs font-semibold sticky right-0 bg-white dark:bg-slate-900 group-hover:bg-slate-50/80 dark:group-hover:bg-slate-850/50 transition-colors z-10">
                             <div class="flex items-center justify-end space-x-1.5">
                                 <button th:hx-get="'/sys/manager/' + ${m.id}" 
                                         hx-target="#detailModalContent"
@@ -154,10 +154,15 @@
                         </td>
                     </tr>
                     <tr th:if="${#lists.isEmpty(managerPage.content)}">
-                        <td colspan="8" class="px-6 py-12 text-center text-slate-500 dark:text-slate-400">
-                            <div class="flex flex-col items-center justify-center space-y-2">
-                                <i class="w-8 h-8 text-slate-300 dark:text-slate-600" data-lucide="inbox"></i>
-                                <span class="text-xs">未找到相关的管理员记录。</span>
+                        <td colspan="8" class="px-6 py-16 text-center">
+                            <div class="flex flex-col items-center justify-center space-y-3">
+                                <div class="h-14 w-14 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/50 flex items-center justify-center text-indigo-500 shadow-xs">
+                                    <i class="w-7 h-7" data-lucide="shield-check"></i>
+                                </div>
+                                <p class="text-sm font-bold text-slate-700 dark:text-slate-200">暂无管理员账号数据</p>
+                                <p class="text-xs text-slate-400 dark:text-slate-500 max-w-sm leading-relaxed">
+                                    当前未匹配到符合条件的管理员账号，您可以重新尝试搜索条件或新建账号。
+                                </p>
                             </div>
                         </td>
                     </tr>

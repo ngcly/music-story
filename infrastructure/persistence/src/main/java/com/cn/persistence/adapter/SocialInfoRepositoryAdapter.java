@@ -19,8 +19,8 @@ public class SocialInfoRepositoryAdapter implements SocialInfoRepositoryPort {
     private final SocialInfoRepository socialInfoRepository;
  
     @Override
-    public Optional<SocialInfo> findByOpenId(String openId) {
-        return Optional.ofNullable(socialInfoRepository.findByOpenId(openId))
+    public Optional<SocialInfo> findBySourceAndOpenId(String source, String openId) {
+        return Optional.ofNullable(socialInfoRepository.findBySourceAndOpenId(source, openId))
                 .map(UserMapper::toDomain);
     }
  

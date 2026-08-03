@@ -1,7 +1,7 @@
 {
-  "_hash": "H_uE5LPCnj6SqejAr0-zQJI_LWBPTcFq9SLH8PToDuY",
+  "_hash": "l_Ew1zdBUC38l0WfKaCijRvqbkFAToo77tNmD5-GjUw",
   "project": {
-    "rootDir": "D:/git项目/MusicStory/apps/web-client"
+    "rootDir": "/Users/chenning/personalProjects/backend/music-story/apps/web-client"
   },
   "versions": {
     "nuxt": "3.21.8"

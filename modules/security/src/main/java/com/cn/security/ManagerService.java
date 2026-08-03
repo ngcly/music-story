@@ -1,15 +1,14 @@
 package com.cn.security;
 
-import com.cn.enums.GenderEnum;
 import com.cn.enums.UserStatusEnum;
 import com.cn.enums.UserTypeEnum;
 import com.cn.exception.GlobalException;
+import com.cn.model.RestCode;
 import com.cn.dao.ManagerRepository;
 import com.cn.entity.Manager;
 import com.cn.entity.Role;
 
 import lombok.AllArgsConstructor;
-import org.hibernate.Hibernate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
@@ -25,7 +24,6 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -38,6 +36,9 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class ManagerService implements UserDetailsService {
+    private static final String SUPER_ADMIN_ROLE_CODE = "admin";
+    private static final String LAST_SUPER_ADMIN_MESSAGE = "系统必须保留至少一个有效的超级管理员";
+
     private final ManagerRepository managerRepository;
     private final RoleService roleService;
     private final RequestMappingHandlerMapping requestMappingHandlerMapping;
@@ -53,12 +54,8 @@ public class ManagerService implements UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if (Manager.ADMIN.equals(username)) {
-            return getAdministrator();
-        } else {
-            return managerRepository.findManagerByUsername(username).orElseThrow(() -> new UsernameNotFoundException(
-                    "用户不存在"));
-        }
+        return managerRepository.findManagerByUsername(username).orElseThrow(() -> new UsernameNotFoundException(
+                "用户不存在"));
     }
 
     /**
@@ -68,9 +65,6 @@ public class ManagerService implements UserDetailsService {
      * @return Manager
      */
     public Manager getManagerById(Long managerId) {
-        if (managerId == 0) {
-            return getAdministrator();
-        }
         return managerRepository.findManagerById(managerId).orElseThrow();
     }
 
@@ -125,6 +119,7 @@ public class ManagerService implements UserDetailsService {
             allRole.stream().filter(role -> roleIds.contains(role.getId())).forEach(roles::add);
             updateManager.setRoleList(roles);
         }
+        ensureNotRemovingLastSuperAdministrator(updateManager);
         managerRepository.save(updateManager);
     }
 
@@ -141,7 +136,40 @@ public class ManagerService implements UserDetailsService {
      */
     @Transactional(rollbackFor = Exception.class)
     public void delManager(Long managerId) {
+        List<Manager> activeSuperAdministrators = lockActiveSuperAdministrators();
+        if (activeSuperAdministrators.size() == 1
+                && Objects.equals(activeSuperAdministrators.getFirst().getId(), managerId)) {
+            throw new GlobalException(RestCode.PARAM_ERROR.code, RestCode.PARAM_ERROR.status, LAST_SUPER_ADMIN_MESSAGE);
+        }
         managerRepository.deleteById(managerId);
+    }
+
+    private void ensureNotRemovingLastSuperAdministrator(Manager updatedManager) {
+        if (updatedManager.getId() == null) {
+            return;
+        }
+
+        List<Manager> activeSuperAdministrators = lockActiveSuperAdministrators();
+        boolean targetIsTheLastSuperAdministrator = activeSuperAdministrators.size() == 1
+                && Objects.equals(activeSuperAdministrators.getFirst().getId(), updatedManager.getId());
+        boolean remainsActiveSuperAdministrator = updatedManager.getState() != UserStatusEnum.LOCKED
+                && hasSuperAdministratorRole(updatedManager.getRoleList());
+
+        if (targetIsTheLastSuperAdministrator && !remainsActiveSuperAdministrator) {
+            throw new GlobalException(RestCode.PARAM_ERROR.code, RestCode.PARAM_ERROR.status, LAST_SUPER_ADMIN_MESSAGE);
+        }
+    }
+
+    private List<Manager> lockActiveSuperAdministrators() {
+        return managerRepository.findActiveSuperAdministratorsForUpdate(
+                SUPER_ADMIN_ROLE_CODE, UserTypeEnum.ADMIN, UserStatusEnum.LOCKED);
+    }
+
+    private boolean hasSuperAdministratorRole(Set<Role> roles) {
+        return roles != null && roles.stream().anyMatch(role ->
+                SUPER_ADMIN_ROLE_CODE.equals(role.getRoleCode())
+                        && role.getRoleType() == UserTypeEnum.ADMIN
+                        && Boolean.TRUE.equals(role.getAvailable()));
     }
 
     /**
@@ -179,22 +207,6 @@ public class ManagerService implements UserDetailsService {
      */
     public List<String> getUrlPermissionMetadata() {
         return roleService.getUrlPermission();
-    }
-
-    public Manager getAdministrator() {
-        List<Role> roles = roleService.getAvailableRoles(UserTypeEnum.ADMIN);
-        Manager manager = new Manager();
-        manager.setId(0L);
-        manager.setUsername(Manager.ADMIN);
-        manager.setPassword(passwordEncoder.encode("123456"));
-        manager.setGender(GenderEnum.MAN);
-        manager.setRealName("超管员");
-        manager.setAvatar("https://music-story.oss-cn-hongkong.aliyuncs.com/uPic/beautify.png");
-        manager.setBirthday(LocalDate.of(1993, 7, 24));
-        manager.setState(UserStatusEnum.NORMAL);
-        manager.setRoleList(new HashSet<>(roles));
-        roles.forEach(role -> Hibernate.initialize(role.getPermissions()));
-        return manager;
     }
 
     private List<String> getAllUrlPermission() {

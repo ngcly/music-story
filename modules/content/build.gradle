@@ -11,4 +11,5 @@ dependencies {
     api project(":infrastructure:messaging")
     api project(":infrastructure:oss")
     api project(":modules:search")
+    implementation "org.jsoup:jsoup:${jsoupVersion}"
 }

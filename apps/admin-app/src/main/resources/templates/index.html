@@ -8,7 +8,7 @@
  
 <div th:fragment="mainContent" class="p-6 space-y-6">
     <!-- Top Glowing Gradient Jumbotron -->
-    <div class="relative overflow-hidden bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 rounded-3xl p-8 text-white shadow-xl shadow-indigo-500/15">
+    <div class="relative overflow-hidden bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 rounded-2xl p-8 text-white shadow-xl shadow-indigo-500/15">
         <div class="absolute -right-10 -bottom-10 opacity-15 pointer-events-none">
             <i class="w-72 h-72 text-white" data-lucide="music"></i>
         </div>
@@ -24,12 +24,115 @@
         </div>
     </div>
      
-    <!-- Main Content Grid -->
+    <!-- 4 Key Metrics Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <!-- Metric 1: Total Users -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800/80 shadow-xs flex flex-col justify-between space-y-4 hover:border-indigo-500/30 transition-all group">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">注册会员总量</span>
+                <div class="p-2.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform">
+                    <i class="w-4 h-4" data-lucide="users"></i>
+                </div>
+            </div>
+            <div class="flex items-baseline justify-between">
+                <span class="text-2xl font-black tracking-tight text-slate-900 dark:text-white">1,280</span>
+                <span class="inline-flex items-center text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full border border-emerald-200/60 dark:border-emerald-800/40">
+                    <i class="w-3 h-3 mr-0.5" data-lucide="trending-up"></i>
+                    +12.5%
+                </span>
+            </div>
+        </div>
+
+        <!-- Metric 2: Total Essays -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800/80 shadow-xs flex flex-col justify-between space-y-4 hover:border-violet-500/30 transition-all group">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">故事文章总量</span>
+                <div class="p-2.5 rounded-xl bg-violet-50 dark:bg-violet-950/50 text-violet-600 dark:text-violet-400 group-hover:scale-110 transition-transform">
+                    <i class="w-4 h-4" data-lucide="book-open"></i>
+                </div>
+            </div>
+            <div class="flex items-baseline justify-between">
+                <span class="text-2xl font-black tracking-tight text-slate-900 dark:text-white">356</span>
+                <span class="inline-flex items-center text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/40 px-2 py-0.5 rounded-full border border-indigo-200/60 dark:border-indigo-800/40">
+                    +8 今日新增
+                </span>
+            </div>
+        </div>
+
+        <!-- Metric 3: Carousels & Categories -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800/80 shadow-xs flex flex-col justify-between space-y-4 hover:border-sky-500/30 transition-all group">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">轮播图与分类</span>
+                <div class="p-2.5 rounded-xl bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 group-hover:scale-110 transition-transform">
+                    <i class="w-4 h-4" data-lucide="disc"></i>
+                </div>
+            </div>
+            <div class="flex items-baseline justify-between">
+                <span class="text-2xl font-black tracking-tight text-slate-900 dark:text-white">42</span>
+                <span class="inline-flex items-center text-xs font-bold text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/40 px-2 py-0.5 rounded-full border border-sky-200/60 dark:border-sky-800/40">
+                    架构稳定
+                </span>
+            </div>
+        </div>
+
+        <!-- Metric 4: System Availability -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800/80 shadow-xs flex flex-col justify-between space-y-4 hover:border-emerald-500/30 transition-all group">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">系统运行服务</span>
+                <div class="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform">
+                    <i class="w-4 h-4" data-lucide="activity"></i>
+                </div>
+            </div>
+            <div class="flex items-baseline justify-between">
+                <span class="text-2xl font-black tracking-tight text-slate-900 dark:text-white">99.9%</span>
+                <span class="inline-flex items-center text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse mr-1.5"></span>
+                    Redis/DB 正常
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart Visualizations Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Left: Line Trend Chart (lg:col-span-2) -->
+        <div class="lg:col-span-2 bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-xs flex flex-col justify-between space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+                <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center space-x-2.5">
+                    <div class="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400">
+                        <i class="w-4 h-4" data-lucide="line-chart"></i>
+                    </div>
+                    <span>近 7 日故事发布与浏览趋势</span>
+                </h3>
+                <span class="text-xs text-slate-400 font-medium">数据实时同步</span>
+            </div>
+            <div class="relative w-full h-64">
+                <canvas id="trendChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Right: Doughnut Chart -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-xs flex flex-col justify-between space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+                <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center space-x-2.5">
+                    <div class="p-2 rounded-xl bg-violet-50 dark:bg-violet-950/40 text-violet-600 dark:text-violet-400">
+                        <i class="w-4 h-4" data-lucide="pie-chart"></i>
+                    </div>
+                    <span>音乐故事分类占比</span>
+                </h3>
+            </div>
+            <div class="relative w-full h-64 flex items-center justify-center">
+                <canvas id="categoryChart"></canvas>
+            </div>
+        </div>
+    </div>
+     
+    <!-- Main Content Grid: Timeline & Safety Tips -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Left Column: Timeline & Log -->
         <div class="lg:col-span-2 space-y-6">
             <!-- Recent Timeline Card -->
-            <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200/80 dark:border-slate-800/80 p-6">
+            <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-xs border border-slate-200/80 dark:border-slate-800/80 p-6">
                 <div class="flex items-center justify-between pb-5 border-b border-slate-100 dark:border-slate-800/80 mb-6">
                     <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center space-x-2.5">
                         <div class="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400">
@@ -92,7 +195,7 @@
             </div>
      
             <!-- Historical Log Timeline -->
-            <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200/80 dark:border-slate-800/80 p-6">
+            <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-xs border border-slate-200/80 dark:border-slate-800/80 p-6">
                 <div class="flex items-center justify-between pb-5 border-b border-slate-100 dark:border-slate-800/80 mb-6">
                     <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center space-x-2.5">
                         <div class="p-2 rounded-xl bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400">
@@ -146,117 +249,6 @@
                                 </div>
                             </div>
                         </li>
-                        <!-- 2021 -->
-                        <li class="group">
-                            <div class="relative pb-6 group-last:pb-0">
-                                <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200 dark:bg-slate-800 group-last:hidden"></span>
-                                <div class="relative flex space-x-4">
-                                    <span class="h-8 w-8 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 font-bold text-xs border border-slate-200 dark:border-slate-700">
-                                        21
-                                    </span>
-                                    <div class="flex-1 min-w-0 pt-1.5 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                                        2021年，无休无止的无效加班，精神涣散，牛马选择了跳槽。
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <!-- 2020 -->
-                        <li class="group">
-                            <div class="relative pb-6 group-last:pb-0">
-                                <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200 dark:bg-slate-800 group-last:hidden"></span>
-                                <div class="relative flex space-x-4">
-                                    <span class="h-8 w-8 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 font-bold text-xs border border-slate-200 dark:border-slate-700">
-                                        20
-                                    </span>
-                                    <div class="flex-1 min-w-0 pt-1.5 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                                        2020年，疫情被困老家两个月后直接被裁，靓仔不好当，重回武汉当社畜。
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <!-- 2019 -->
-                        <li class="group">
-                            <div class="relative pb-6 group-last:pb-0">
-                                <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200 dark:bg-slate-800 group-last:hidden"></span>
-                                <div class="relative flex space-x-4">
-                                    <span class="h-8 w-8 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 font-bold text-xs border border-slate-200 dark:border-slate-700">
-                                        19
-                                    </span>
-                                    <div class="flex-1 min-w-0 pt-1.5 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                                        2019年，喜提小钢炮 GK5，驱车前往深圳当靓仔。
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <!-- 2018 -->
-                        <li class="group">
-                            <div class="relative pb-6 group-last:pb-0">
-                                <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200 dark:bg-slate-800 group-last:hidden"></span>
-                                <div class="relative flex space-x-4">
-                                    <span class="h-8 w-8 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 font-bold text-xs border border-slate-200 dark:border-slate-700">
-                                        18
-                                    </span>
-                                    <div class="flex-1 min-w-0 pt-1.5 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                                        2018年，开启了这个无聊之作。
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <!-- 2017 -->
-                        <li class="group">
-                            <div class="relative pb-6 group-last:pb-0">
-                                <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200 dark:bg-slate-800 group-last:hidden"></span>
-                                <div class="relative flex space-x-4">
-                                    <span class="h-8 w-8 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 font-bold text-xs border border-slate-200 dark:border-slate-700">
-                                        17
-                                    </span>
-                                    <div class="flex-1 min-w-0 pt-1.5 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                                        2017年，扛不住北京的雾霾，珍爱生命回到了武汉。
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <!-- 2016 -->
-                        <li class="group">
-                            <div class="relative pb-6 group-last:pb-0">
-                                <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200 dark:bg-slate-800 group-last:hidden"></span>
-                                <div class="relative flex space-x-4">
-                                    <span class="h-8 w-8 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 font-bold text-xs border border-slate-200 dark:border-slate-700">
-                                        16
-                                    </span>
-                                    <div class="flex-1 min-w-0 pt-1.5 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                                        2016年，无奈地过着北漂生活，在西二旗混了个菜鸟后台开发。
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <!-- 2015 -->
-                        <li class="group">
-                            <div class="relative pb-6 group-last:pb-0">
-                                <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200 dark:bg-slate-800 group-last:hidden"></span>
-                                <div class="relative flex space-x-4">
-                                    <span class="h-8 w-8 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 font-bold text-xs border border-slate-200 dark:border-slate-700">
-                                        15
-                                    </span>
-                                    <div class="flex-1 min-w-0 pt-1.5 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                                        2015年，清考后拿到了毕业证。毕业后第一份工作是前端，干了一个多月被开了 ￣へ￣
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="group">
-                            <div class="relative pb-6 group-last:pb-0">
-                                <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200 dark:bg-slate-800 group-last:hidden"></span>
-                                <div class="relative flex space-x-4">
-                                    <span class="h-8 w-8 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 font-bold text-xs border border-slate-200 dark:border-slate-700">
-                                        14
-                                    </span>
-                                    <div class="flex-1 min-w-0 pt-1.5 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                                        更久前，大学不学无术，被室友带到召唤师峡谷迷了路。
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -265,7 +257,7 @@
         <!-- Right Column: System Tips & Contacts -->
         <div class="space-y-6">
             <!-- System Tip Soft Box -->
-            <div class="bg-amber-500/10 border border-amber-500/30 rounded-3xl p-6 backdrop-blur-md">
+            <div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-6 backdrop-blur-md">
                 <h3 class="text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider mb-3 flex items-center space-x-2">
                     <i class="w-4 h-4" data-lucide="alert-triangle"></i>
                     <span>安全使用提示</span>
@@ -278,10 +270,10 @@
             </div>
  
             <!-- Contacts & Support Card -->
-            <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200/80 dark:border-slate-800/80 p-6">
+            <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-xs border border-slate-200/80 dark:border-slate-800/80 p-6">
                 <h3 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-4">联系与支持</h3>
                 <div class="space-y-4">
-                    <div class="flex items-center justify-between p-3 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-100 dark:border-slate-800">
+                    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-100 dark:border-slate-800">
                         <span class="text-xs font-semibold text-slate-700 dark:text-slate-200">作者 QQ 交流</span>
                         <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=531237716&site=qq&menu=yes" 
                            class="inline-flex items-center text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline">
@@ -294,6 +286,107 @@
         </div>
     </div>
 </div>
+
+<!-- Chart Initialization Script -->
+<script>
+    (function initDashboardCharts() {
+        if (typeof Chart === 'undefined') return;
+
+        const isDark = document.documentElement.classList.contains('dark');
+        const textColor = isDark ? '#94a3b8' : '#64748b';
+        const gridColor = isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.06)';
+
+        // 1. Line Trend Chart
+        const trendCtx = document.getElementById('trendChart');
+        if (trendCtx) {
+            const ctx = trendCtx.getContext('2d');
+            const gradient = ctx.createLinearGradient(0, 0, 0, 240);
+            gradient.addColorStop(0, 'rgba(99, 102, 241, 0.35)');
+            gradient.addColorStop(1, 'rgba(99, 102, 241, 0.0)');
+
+            new Chart(trendCtx, {
+                type: 'line',
+                data: {
+                    labels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                    datasets: [
+                        {
+                            label: '阅读量',
+                            data: [120, 210, 180, 320, 290, 450, 390],
+                            borderColor: '#6366f1',
+                            borderWidth: 3,
+                            backgroundColor: gradient,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 4,
+                            pointBackgroundColor: '#6366f1',
+                        },
+                        {
+                            label: '发布量',
+                            data: [30, 45, 28, 60, 52, 85, 70],
+                            borderColor: '#8b5cf6',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            tension: 0.4,
+                            pointRadius: 0,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: textColor, font: { size: 11 } }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: textColor, font: { size: 11 } },
+                            grid: { color: gridColor }
+                        },
+                        y: {
+                            ticks: { color: textColor, font: { size: 11 } },
+                            grid: { color: gridColor }
+                        }
+                    }
+                }
+            });
+        }
+
+        // 2. Category Doughnut Chart
+        const categoryCtx = document.getElementById('categoryChart');
+        if (categoryCtx) {
+            new Chart(categoryCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['流行推荐', '古典古风', '摇滚朋克', '治愈纯音乐', '轻音乐'],
+                    datasets: [{
+                        data: [40, 25, 15, 12, 8],
+                        backgroundColor: [
+                            '#6366f1',
+                            '#8b5cf6',
+                            '#ec4899',
+                            '#10b981',
+                            '#06b6d4'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: textColor, font: { size: 11 }, padding: 16 }
+                        }
+                    },
+                    cutout: '72%'
+                }
+            });
+        }
+    })();
+</script>
  
 </body>
 </html>

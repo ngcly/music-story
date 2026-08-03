@@ -22,7 +22,7 @@
     </div>
  
     <!-- Search & Actions Row Container -->
-    <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200/80 dark:border-slate-800/80 p-5 flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-800/80 p-5 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <form id="search-form" hx-get="/ms/notice.html" hx-target="#noticeTableContainer" hx-swap="outerHTML" class="flex flex-wrap items-end gap-4 flex-1">
             <div class="w-full md:w-64">
                 <label class="block text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1.5">标题</label>
@@ -60,7 +60,7 @@
          hx-include="#search-form" 
          hx-target="this" 
          hx-swap="outerHTML"
-         class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200/80 dark:border-slate-800/80 overflow-hidden">
+         class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-800/80 overflow-hidden">
          
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-slate-100 dark:divide-slate-800/80">
@@ -71,11 +71,11 @@
                         <th class="px-6 py-4 text-left text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">展示状态</th>
                         <th class="px-6 py-4 text-left text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">发布时间</th>
                         <th class="px-6 py-4 text-left text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">更新时间</th>
-                        <th class="px-6 py-4 text-right text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">操作</th>
+                        <th class="px-6 py-4 text-right text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider sticky right-0 bg-slate-50/90 dark:bg-slate-950/90 backdrop-blur-xs z-10">操作</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 dark:divide-slate-800/80 bg-white dark:bg-slate-900">
-                    <tr th:each="n : ${noticePage.content}" class="hover:bg-slate-50/80 dark:hover:bg-slate-850/50 transition-colors">
+                    <tr th:each="n : ${noticePage.content}" class="hover:bg-slate-50/80 dark:hover:bg-slate-850/50 transition-colors group">
                         <td class="px-6 py-4 whitespace-nowrap text-xs font-bold text-slate-800 dark:text-slate-200" th:text="${n.title}"></td>
                         <td class="px-6 py-4 whitespace-nowrap text-xs text-slate-500 dark:text-slate-400 font-mono" th:text="${n.noticeType != null ? n.noticeType : '-'}"></td>
                         <td class="px-6 py-4 whitespace-nowrap text-xs" sec:authorize="!hasAuthority('PUT_/ms/notice')">
@@ -88,7 +88,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-xs text-slate-500 dark:text-slate-400" th:text="${#temporals.format(n.createdAt,'yyyy-MM-dd HH:mm:ss')}"></td>
                         <td class="px-6 py-4 whitespace-nowrap text-xs text-slate-500 dark:text-slate-400" th:text="${#temporals.format(n.updatedAt,'yyyy-MM-dd HH:mm:ss')}"></td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-xs font-semibold space-x-2">
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-xs font-semibold space-x-2 sticky right-0 bg-white dark:bg-slate-900 group-hover:bg-slate-50/80 dark:group-hover:bg-slate-850/50 transition-colors z-10">
                              <button sec:authorize="hasAuthority('PUT_/ms/notice')"
                                      class="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 font-bold"
                                      th:hx-get="@{/ms/notice/edit.html(id=${n.id})}" 
@@ -107,10 +107,15 @@
                         </td>
                     </tr>
                     <tr th:if="${#lists.isEmpty(noticePage.content)}">
-                        <td colspan="6" class="px-6 py-12 text-center text-slate-500 dark:text-slate-400">
-                            <div class="flex flex-col items-center justify-center space-y-2">
-                                <i class="w-8 h-8 text-slate-300 dark:text-slate-600" data-lucide="inbox"></i>
-                                <span class="text-xs">没有任何公告记录。</span>
+                        <td colspan="6" class="px-6 py-16 text-center">
+                            <div class="flex flex-col items-center justify-center space-y-3">
+                                <div class="h-14 w-14 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/50 flex items-center justify-center text-indigo-500 shadow-xs">
+                                    <i class="w-7 h-7" data-lucide="bell"></i>
+                                </div>
+                                <p class="text-sm font-bold text-slate-700 dark:text-slate-200">暂无系统通知公告</p>
+                                <p class="text-xs text-slate-400 dark:text-slate-500 max-w-sm leading-relaxed">
+                                    当前未匹配到相关公告数据，您可以重置过滤条件或新建发布公告。
+                                </p>
                             </div>
                         </td>
                     </tr>

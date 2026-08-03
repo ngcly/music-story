@@ -13,6 +13,7 @@ import com.cn.user.domain.User;
 import com.cn.entity.*;
 import com.cn.model.AuthenticationDetails;
 import com.cn.model.LogInDTO;
+import com.cn.model.LoginResponse;
 import com.cn.model.SignUpDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -71,7 +72,7 @@ public class IndexController {
      */
     @Operation(summary = "登录", description = "普通登录")
     @PostMapping("/signin")
-    public ResponseEntity<User> postAccessToken(HttpServletRequest request, @Valid @RequestBody LogInDTO logInDTO) {
+    public ResponseEntity<LoginResponse> postAccessToken(HttpServletRequest request, @Valid @RequestBody LogInDTO logInDTO) {
         AbstractAuthenticationToken authenticationToken = getAuthenticationToken(request, logInDTO);
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -80,8 +81,8 @@ public class IndexController {
         String token = jwtTokenUtil.generateToken(user);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.AUTHORIZATION, token)
-                .body(user);
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .body(LoginResponse.bearer(token, user));
     }
 
     private AbstractAuthenticationToken getAuthenticationToken(HttpServletRequest request, LogInDTO logInDTO) {

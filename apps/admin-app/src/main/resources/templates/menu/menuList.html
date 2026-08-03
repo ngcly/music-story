@@ -45,7 +45,7 @@
          hx-get="/sys/menu.html" 
          hx-target="this" 
          hx-swap="outerHTML"
-         class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200/80 dark:border-slate-800/80 overflow-hidden"
+         class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-800/80 overflow-hidden"
          x-data="{
             expandedIds: [],
             parentMap: {},
@@ -107,7 +107,7 @@
                         <th class="px-6 py-4 text-left text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">菜单类型</th>
                         <th class="px-6 py-4 text-left text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">图标</th>
                         <th class="px-6 py-4 text-left text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">排序</th>
-                        <th class="px-6 py-4 text-right text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">操作</th>
+                        <th class="px-6 py-4 text-right text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider sticky right-0 bg-slate-50/90 dark:bg-slate-950/90 backdrop-blur-xs z-10">操作</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 dark:divide-slate-800/80 bg-white dark:bg-slate-900">
@@ -155,7 +155,7 @@
                             <i class="w-4 h-4" th:data-lucide="${menu.icon != null && !menu.icon.isEmpty() ? menu.icon : 'help-circle'}"></i>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-xs text-slate-500 dark:text-slate-400" th:text="${menu.sort}"></td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-xs font-semibold space-x-2">
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-xs font-semibold space-x-2 sticky right-0 bg-white dark:bg-slate-900 z-10">
                             <button sec:authorize="hasAuthority('POST_/sys/menu')"
                                     class="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 font-bold"
                                     th:unless="${#strings.equalsIgnoreCase(menu.resourceType, 'BUTTON')}"
@@ -182,10 +182,15 @@
                         </td>
                     </tr>
                     <tr th:if="${#lists.isEmpty(permissionList)}">
-                        <td colspan="7" class="px-6 py-12 text-center text-slate-500 dark:text-slate-400">
-                            <div class="flex flex-col items-center justify-center space-y-2">
-                                <i class="w-8 h-8 text-slate-300 dark:text-slate-600" data-lucide="inbox"></i>
-                                <span class="text-xs">没有任何菜单记录。</span>
+                        <td colspan="7" class="px-6 py-16 text-center">
+                            <div class="flex flex-col items-center justify-center space-y-3">
+                                <div class="h-14 w-14 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/50 flex items-center justify-center text-indigo-500 shadow-xs">
+                                    <i class="w-7 h-7" data-lucide="folder-tree"></i>
+                                </div>
+                                <p class="text-sm font-bold text-slate-700 dark:text-slate-200">暂无系统菜单结构</p>
+                                <p class="text-xs text-slate-400 dark:text-slate-500 max-w-sm leading-relaxed">
+                                    当前系统尚未配置菜单项，您可以点击右上角“新增顶级菜单”进行初始化配置。
+                                </p>
                             </div>
                         </td>
                     </tr>

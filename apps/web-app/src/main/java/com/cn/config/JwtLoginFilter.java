@@ -3,6 +3,7 @@ package com.cn.config;
 import com.cn.user.domain.User;
 import com.cn.model.AuthenticationDetails;
 import com.cn.model.LogInDTO;
+import com.cn.model.LoginResponse;
 import com.cn.model.RestCode;
 import com.cn.util.JacksonUtil;
 import org.apache.hc.core5.http.ContentType;
@@ -70,9 +71,9 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
         User user = securityUser.getUser();
         String token = jwtTokenUtil.generateToken(user);
         response.setContentType(ContentType.APPLICATION_JSON.toString());
-        response.setHeader(HttpHeaders.AUTHORIZATION, token);
+        response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
         try (PrintWriter printWriter = response.getWriter()) {
-            String jsonStr = JacksonUtil.stringify(user.getUsername());
+            String jsonStr = JacksonUtil.stringify(LoginResponse.bearer(token, user));
             printWriter.write(jsonStr);
         }
     }

@@ -109,8 +109,6 @@ public class Manager extends AbstractDateAudit implements UserDetails, Credentia
     @Transient
     private Long[] roleIds;
 
-    public static final String ADMIN = "administrator";
-
     /**
      * 加载权限
      */

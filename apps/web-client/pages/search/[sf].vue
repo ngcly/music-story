@@ -106,9 +106,9 @@ const loading = ref(false)
 function load() {
   if (!keyWord.value) return
   loading.value = true
-  api.essaySearch('', '/10/' + page.value + '/' + keyWord.value).then(response => {
-    essays.value = response.data || []
-    total.value = essays.value.length
+  api.essaySearch('', '/10/' + page.value + '/' + encodeURIComponent(keyWord.value)).then(response => {
+    essays.value = response?.content || []
+    total.value = response?.totalElements || 0
     loading.value = false
   }).catch(() => {
     loading.value = false

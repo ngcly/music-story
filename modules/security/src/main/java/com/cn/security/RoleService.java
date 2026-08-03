@@ -5,7 +5,9 @@ import com.cn.dao.RoleRepository;
 import com.cn.entity.Permission;
 import com.cn.entity.Role;
 import com.cn.enums.UserTypeEnum;
+import com.cn.exception.GlobalException;
 import com.cn.model.MenuDTO;
+import com.cn.model.RestCode;
 import com.cn.util.MenuUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -27,6 +29,9 @@ import java.util.*;
 @Service
 @AllArgsConstructor
 public class RoleService {
+    private static final String SUPER_ADMIN_ROLE_CODE = "admin";
+    private static final String PROTECTED_SUPER_ADMIN_ROLE_MESSAGE = "超级管理员角色是系统授权根，不能禁用、删除或降权";
+
     private final RoleRepository roleRepository;
     private final PermissionRepository permissionRepository;
 
@@ -68,6 +73,12 @@ public class RoleService {
             roleRepository.save(role);
         } else {
             Role role1 = roleRepository.getReferenceById(role.getId());
+            if (isSuperAdministratorRole(role1)
+                    && (!SUPER_ADMIN_ROLE_CODE.equals(role.getRoleCode())
+                    || role.getRoleType() != UserTypeEnum.ADMIN
+                    || !Boolean.TRUE.equals(role.getAvailable()))) {
+                throw protectedSuperAdministratorRoleException();
+            }
             role1.setRoleName(role.getRoleName());
             role1.setRoleCode(role.getRoleCode());
             role1.setRoleType(role.getRoleType());
@@ -84,6 +95,15 @@ public class RoleService {
         Role role = roleRepository.getReferenceById(roleId);
         List<Long> ids = Arrays.stream(menuIds.split(",")).map(Long::valueOf).toList();
         List<Permission> permissionList = permissionRepository.findAllById(ids);
+        if (isSuperAdministratorRole(role)) {
+            Set<Long> retainedPermissionIds = new HashSet<>(ids);
+            boolean removesExistingPermission = role.getPermissions().stream()
+                    .map(Permission::getId)
+                    .anyMatch(permissionId -> !retainedPermissionIds.contains(permissionId));
+            if (removesExistingPermission) {
+                throw protectedSuperAdministratorRoleException();
+            }
+        }
         role.setPermissions(new HashSet<>(permissionList));
     }
 
@@ -93,6 +113,9 @@ public class RoleService {
     @Transactional(rollbackFor = Exception.class)
     public void altAvailable(long roleId) {
         Role role = roleRepository.getReferenceById(roleId);
+        if (isSuperAdministratorRole(role)) {
+            throw protectedSuperAdministratorRoleException();
+        }
         role.setAvailable(!role.getAvailable());
     }
 
@@ -101,7 +124,23 @@ public class RoleService {
      */
     @Transactional(rollbackFor = Exception.class)
     public void delRole(long roleId) {
+        Role role = roleRepository.getReferenceById(roleId);
+        if (isSuperAdministratorRole(role)) {
+            throw protectedSuperAdministratorRoleException();
+        }
         roleRepository.deleteById(roleId);
+    }
+
+    private boolean isSuperAdministratorRole(Role role) {
+        return SUPER_ADMIN_ROLE_CODE.equals(role.getRoleCode())
+                && role.getRoleType() == UserTypeEnum.ADMIN;
+    }
+
+    private GlobalException protectedSuperAdministratorRoleException() {
+        return new GlobalException(
+                RestCode.PARAM_ERROR.code,
+                RestCode.PARAM_ERROR.status,
+                PROTECTED_SUPER_ADMIN_ROLE_MESSAGE);
     }
 
     /**

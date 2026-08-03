@@ -52,7 +52,7 @@ public class SecurityUser implements UserDetails, CredentialsContainer {
  
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return user.getState() != UserStatusEnum.LOCKED;
     }
  
     @Override
@@ -62,7 +62,7 @@ public class SecurityUser implements UserDetails, CredentialsContainer {
  
     @Override
     public boolean isEnabled() {
-        return user.getState() != UserStatusEnum.INITIALIZE;
+        return user.getState() == UserStatusEnum.NORMAL;
     }
  
     @Override
