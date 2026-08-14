@@ -26,7 +26,7 @@
     "js-md5": "^0.8.3",
     "lucide-vue-next": "^0.414.0",
     "normalize.css": "^8.0.1",
-    "nuxt": "^3.12.2",
+    "nuxt": "^3.21.10",
     "pinia": "^2.1.9",
     "radix-vue": "^1.9.0",
     "reka-ui": "^2.10.1",
