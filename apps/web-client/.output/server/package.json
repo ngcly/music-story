@@ -75,7 +75,7 @@
     "requires-port": "1.0.0",
     "safe-buffer": "5.2.1",
     "sockjs-client": "1.6.1",
-    "source-map-js": "1.2.1",
+    "source-map-js": "1.2.2",
     "stompjs": "2.3.3",
     "supports-color": "7.2.0",
     "tailwind-merge": "2.6.1",
